@@ -33,7 +33,7 @@ public class DataGenerator {
     }
 
     private void generateData() {
-        // 1. Создаём 10 компаний
+
         List<Employer> employers = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             Employer employer = new Employer();
@@ -42,7 +42,6 @@ public class DataGenerator {
         }
         employerRepository.saveAll(employers);
 
-        // 2. Создаём вакансии (по 2-3 на компанию)
         List<Vacancy> vacancies = new ArrayList<>();
         for (Employer employer : employers) {
             int vacancyCount = 2 + random.nextInt(2); // 2 или 3
@@ -58,30 +57,30 @@ public class DataGenerator {
         }
         vacancyRepository.saveAll(vacancies);
 
-        // 3. Создаём 10 скиллов
+
         List<Skill> skills = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             Skill skill = new Skill();
             skill.setName("Skill " + i);
             skills.add(skill);
         }
-        // 🔹 Сначала сохраняем скиллы, чтобы у них появились ID
+
         skillRepository.saveAll(skills);
 
-        // 4. Создаём 50 работников
+
         List<Worker> workers = new ArrayList<>();
         for (int i = 1; i <= 50; i++) {
             Worker worker = new Worker();
             worker.setName("Worker " + i);
-            // назначаем 2–5 случайных скиллов
+
             Collections.shuffle(skills);
             worker.setWorkerSkills(new ArrayList<>(skills.subList(0, 2 + random.nextInt(4))));
             workers.add(worker);
         }
-        // 🔹 Теперь можно сохранить работников
+
         workerRepository.saveAll(workers);
 
-        // 5. Создаём 1000 Employment
+
         List<Employment> employments = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
             Worker worker = workers.get(random.nextInt(workers.size()));
@@ -101,7 +100,7 @@ public class DataGenerator {
         }
         employmentRepository.saveAll(employments);
 
-        // 6. Пересчёт опыта у работников
+
         for (Worker worker : workers) {
             List<Employment> workerEmployments = employments.stream()
                     .filter(e -> e.getWorker().equals(worker))
@@ -116,6 +115,6 @@ public class DataGenerator {
         }
         workerRepository.saveAll(workers);
 
-        System.out.println("✅ Генерация данных завершена!");
+        System.out.println(" Генерация данных завершена!");
     }
 }
