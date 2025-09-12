@@ -31,7 +31,7 @@ public class Worker {
 
     @ManyToMany
     @JoinTable(name = "workers_skills",
-            joinColumns =@JoinColumn(name= "skill_id"),
-            inverseJoinColumns = @JoinColumn(name = "worker_id"))
+            joinColumns =@JoinColumn(name= "worker_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> workerSkills = new ArrayList<>();
 }

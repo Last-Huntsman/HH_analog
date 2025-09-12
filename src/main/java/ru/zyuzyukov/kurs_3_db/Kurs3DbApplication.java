@@ -8,6 +8,7 @@ public class Kurs3DbApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(Kurs3DbApplication.class, args);
+
     }
 
 }

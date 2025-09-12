@@ -35,10 +35,13 @@ public class Vacancy {
     @Size(max = 100)
     private String post;
 
+    @NotNull
+    private Boolean active = true;
+
     @ManyToMany
     @JoinTable(name = "vacancy_skill",
-            joinColumns = @JoinColumn(name = "skill_id"),
-            inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
+            joinColumns = @JoinColumn(name = "vacancy_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> vacancySkills = new ArrayList<>();
 
 }

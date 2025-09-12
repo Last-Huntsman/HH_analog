@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Data
 public class Employer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

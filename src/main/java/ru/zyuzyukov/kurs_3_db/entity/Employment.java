@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Employment {
 
     @Id
@@ -21,8 +21,8 @@ public class Employment {
     @JoinColumn(name = "worker_id", nullable = true)
     private Worker worker;
     @ManyToOne
-    @JoinColumn(name = "employment_id", nullable = false)
-    private Employment employment;
+    @JoinColumn(name = "vacancy_id", nullable = false)
+    private Vacancy vacancy;
     private LocalDateTime date_open;
     private LocalDateTime date_closed;
 }
