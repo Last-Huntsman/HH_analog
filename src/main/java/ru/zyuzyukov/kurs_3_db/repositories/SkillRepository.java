@@ -5,6 +5,6 @@ import ru.zyuzyukov.kurs_3_db.entity.Employer;
 
 import java.util.UUID;
 
-public interface EmployerRepository extends JpaRepository<Employer, UUID>{
+public interface SkillRepository extends JpaRepository<Employer, UUID>{
 
 }
