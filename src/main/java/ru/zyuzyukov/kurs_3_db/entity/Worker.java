@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.zyuzyukov.kurs_3_db.service.CRUDable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Worker {
+public class Worker implements CRUDable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
