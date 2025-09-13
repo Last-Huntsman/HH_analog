@@ -42,6 +42,14 @@ public class DataGenerator {
         }
         employerRepository.saveAll(employers);
 
+        List<Skill> skills = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            Skill skill = new Skill();
+            skill.setName("Skill " + i);
+            skills.add(skill);
+        }
+
+        skillRepository.saveAll(skills);
         List<Vacancy> vacancies = new ArrayList<>();
         for (Employer employer : employers) {
             int vacancyCount = 2 + random.nextInt(2); // 2 или 3
@@ -52,20 +60,14 @@ public class DataGenerator {
                 vacancy.setDescription("Job description for " + vacancy.getPost());
                 vacancy.setSalary(40000 + random.nextInt(60000));
                 vacancy.setActive(true);
+                Collections.shuffle(skills);
+                vacancy.setVacancySkills(new ArrayList<>(skills.subList(0, 2 + random.nextInt(4))));
                 vacancies.add(vacancy);
             }
         }
         vacancyRepository.saveAll(vacancies);
 
 
-        List<Skill> skills = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            Skill skill = new Skill();
-            skill.setName("Skill " + i);
-            skills.add(skill);
-        }
-
-        skillRepository.saveAll(skills);
 
 
         List<Worker> workers = new ArrayList<>();

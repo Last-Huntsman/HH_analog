@@ -21,8 +21,8 @@ public class Employer {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
-    @NotBlank()
 
+    @NotBlank()
     @Column(name = "name", length = 50)
     private String name;
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL,orphanRemoval = true)
