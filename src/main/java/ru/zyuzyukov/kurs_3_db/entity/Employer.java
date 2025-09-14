@@ -24,7 +24,8 @@ public class Employer implements Entitytable {
     private UUID id;
 
     @NotBlank()
-    @Column(name = "name", length = 50)
+    @Column(name = "name", length = 50, unique = true)
+
     private String name;
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Vacancy> vacancyList = new ArrayList<>();

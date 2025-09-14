@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.zyuzyukov.kurs_3_db.entity.Employer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class VacancyDto implements CRUDable {
 
     private UUID id;
 
-    private UUID employer;
+    private UUID employer_id;
     @NotNull
     @Min(value = 0)
     private Integer salary;
@@ -35,7 +36,6 @@ public class VacancyDto implements CRUDable {
     @NotNull
     private Boolean active = true;
 
-
-    private List<UUID> vacancySkillsId = new ArrayList<>();
+    private List<UUID> vacancySkills = new ArrayList<>();
 
 }
