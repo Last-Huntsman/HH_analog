@@ -20,5 +20,6 @@ public class EmploymentDto  implements CRUDable {
     private UUID worker_id;
 
     private UUID vacancy_id;
-    private LocalDateTime end_date;
+    private LocalDateTime date_open;
+    private LocalDateTime date_close;
 }
