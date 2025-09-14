@@ -21,7 +21,6 @@ public class SkillDto  implements CRUDable  {
     @Column(name = "name", length = 50)
     private String name;
 
-
     private List<UUID> vacanciesId = new ArrayList<>();
 
     private List<UUID> workersId = new ArrayList<>();

@@ -1,6 +1,5 @@
-package ru.zyuzyukov.kurs_3_db;
+package ru.zyuzyukov.kurs_3_db.generator;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.zyuzyukov.kurs_3_db.entity.*;
 import ru.zyuzyukov.kurs_3_db.repositories.*;
