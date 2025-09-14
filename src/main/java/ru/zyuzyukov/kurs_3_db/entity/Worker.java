@@ -3,10 +3,9 @@ package ru.zyuzyukov.kurs_3_db.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zyuzyukov.kurs_3_db.service.CRUDable;
+import ru.zyuzyukov.kurs_3_db.dto.CRUDable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Worker implements CRUDable {
+public class Worker implements Entitytable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

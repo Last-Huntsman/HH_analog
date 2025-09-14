@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zyuzyukov.kurs_3_db.service.CRUDable;
+import ru.zyuzyukov.kurs_3_db.dto.CRUDable;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Employment  implements CRUDable {
+public class Employment  implements Entitytable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
