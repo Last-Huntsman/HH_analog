@@ -25,9 +25,5 @@ public class Skill  implements  Entitytable {
     @Column(name = "name", length = 50)
     private String name;
 
-    @ManyToMany(mappedBy = "vacancySkills")
-    private List<Vacancy> vacancies = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "workerSkills")
-    private List<Worker> workers = new ArrayList<>();
 }

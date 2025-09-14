@@ -7,11 +7,11 @@ import ru.zyuzyukov.kurs_3_db.entity.Skill;
 public class SkillMapper implements Mapper<SkillDto, Skill> {
     @Override
     public SkillDto toDto(Skill entity) {
-        return null;
+        return new SkillDto(entity.getId(), entity.getName());
     }
 
     @Override
     public Skill toCreateEntity(SkillDto dto) {
-        return null;
+        return new Skill(dto.getId(), dto.getName());
     }
 }
