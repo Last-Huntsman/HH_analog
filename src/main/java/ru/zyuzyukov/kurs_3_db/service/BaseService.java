@@ -4,11 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import ru.zyuzyukov.kurs_3_db.entity.Entitytable;
+
 import java.util.Optional;
 import java.util.UUID;
 
-public class BaseService<T extends CRUDable> {
+public class BaseService<T extends Entitytable> {
     private final JpaRepository<T, UUID> repository;
 
     public BaseService(JpaRepository<T, UUID> repository) {
