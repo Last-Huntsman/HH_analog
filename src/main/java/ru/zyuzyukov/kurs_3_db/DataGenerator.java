@@ -29,7 +29,7 @@ public class DataGenerator {
         this.workerRepository = workerRepository;
         this.employmentRepository = employmentRepository;
 
-        generateData();
+//        generateData();
     }
 
     private void generateData() {

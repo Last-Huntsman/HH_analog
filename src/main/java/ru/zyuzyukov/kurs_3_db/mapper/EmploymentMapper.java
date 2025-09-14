@@ -2,30 +2,23 @@ package ru.zyuzyukov.kurs_3_db.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.zyuzyukov.kurs_3_db.dto.EmployerDto;
+import ru.zyuzyukov.kurs_3_db.dto.EmploymentDto;
 import ru.zyuzyukov.kurs_3_db.entity.Employer;
+import ru.zyuzyukov.kurs_3_db.entity.Employment;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 
 import java.util.ArrayList;
+
 @Component
-public class EmployerMapper implements Mapper<EmployerDto, Employer> {
+public class EmploymentMapper implements Mapper<EmploymentDto, Employment> {
 
     @Override
-    public EmployerDto toDto(Employer entity) {
-        return new EmployerDto(
-                entity.getId(),
-                entity.getName(),
-                entity.getVacancyList()
-                        .stream()
-                        .map(Vacancy::getId)
-                        .toList());
+    public EmploymentDto toDto(Employment entity) {
+        return null;
     }
 
     @Override
-    public Employer toCreateEntity(EmployerDto dto) {
-        return new Employer(
-                null,
-                dto.getName(),
-                new ArrayList<>()
-        );
+    public Employment toCreateEntity(EmploymentDto dto) {
+        return null;
     }
 }
