@@ -44,7 +44,7 @@ public class VacancyMapper implements Mapper<VacancyDto, Vacancy> {
             throw new IllegalArgumentException("Some skills not found");
         }
         return new Vacancy(
-                dto.getId(),
+                null,
                 employer,
                 dto.getSalary(),
                 dto.getDescription(),
