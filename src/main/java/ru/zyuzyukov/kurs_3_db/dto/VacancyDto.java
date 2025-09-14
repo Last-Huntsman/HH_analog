@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zyuzyukov.kurs_3_db.service.CRUDable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacancyDto implements CRUDable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+
     private UUID id;
 
     private UUID employer;
