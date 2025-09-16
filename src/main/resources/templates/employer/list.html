@@ -24,6 +24,9 @@
         <td th:text="${employer.id}"></td>
         <td th:text="${employer.name}"></td>
         <td>
+            <a th:href="@{'/view/employer/' + ${employer.id} + '/vacancies'}"
+               class="btn btn-info btn-sm">📄 Vacancies</a>
+
             <a th:href="@{'/view/employer/edit/' + ${employer.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
             <a th:href="@{'/view/employer/delete/' + ${employer.id}}" class="btn btn-danger btn-sm"
                onclick="return confirm('Are you sure you want to delete this employer?');">
