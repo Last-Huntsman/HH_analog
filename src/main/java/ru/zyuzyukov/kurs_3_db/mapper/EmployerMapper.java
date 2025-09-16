@@ -25,16 +25,19 @@ public class EmployerMapper implements Mapper<EmployerDto, Employer> {
                 entity.getVacancyList()
                         .stream()
                         .map(Vacancy::getId)
-                        .toList());
+                        .toList(),
+                entity.getActive());
     }
 
     @Override
     public Employer toCreateEntity(EmployerDto dto) {
-       List<Vacancy> vacancyList = vacancyService.findAllById(dto.getVacancyList());
+        List<Vacancy> vacancyList = vacancyService.findAllById(dto.getVacancyList());
         return new Employer(
                 dto.getId(),
                 dto.getName(),
-               vacancyList
+                dto.getActive(),
+                vacancyList
+
         );
     }
 }

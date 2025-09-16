@@ -38,6 +38,7 @@ public class DataGenerator {
             Employer employer = new Employer();
             employer.setName("Company " + i);
             employers.add(employer);
+            employer.setActive(true);
         }
         employerRepository.saveAll(employers);
 

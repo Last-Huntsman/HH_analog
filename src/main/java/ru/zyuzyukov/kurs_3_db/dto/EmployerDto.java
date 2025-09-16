@@ -2,6 +2,7 @@ package ru.zyuzyukov.kurs_3_db.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,8 @@ public class EmployerDto implements CRUDable {
     private String name;
     //при создании не указываем
     private List<UUID> vacancyList = new ArrayList<>();
+    @NotNull
+    private Boolean active = true;
 
 
 

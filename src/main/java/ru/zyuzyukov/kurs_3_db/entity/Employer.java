@@ -2,6 +2,7 @@ package ru.zyuzyukov.kurs_3_db.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,9 +26,12 @@ public class Employer implements Entitytable {
 
     @NotBlank()
     @Column(name = "name", length = 50, unique = true)
-
     private String name;
-    @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL,orphanRemoval = true)
+
+    @NotNull
+    private Boolean active = true;
+
+    @OneToMany(mappedBy = "employer",orphanRemoval = true)
     private List<Vacancy> vacancyList = new ArrayList<>();
 
 
