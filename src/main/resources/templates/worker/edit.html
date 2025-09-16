@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Edit Employer</title></head>
-<body>
-<h1>Edit Employer</h1>
-<form th:action="@{/view/employer/edit}" th:object="${employerDto}" method="post">
+<head>
+    <title>Edit Worker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+<h1>Edit Worker</h1>
+<form th:action="@{/view/worker/edit}" th:object="${workerDto}" method="post">
     <input type="hidden" th:field="*{id}"/>
-    <label>Name:</label>
-    <input type="text" th:field="*{name}" required/><br/>
-    <button type="submit">Update</button>
+    <div class="mb-3">
+        <label class="form-label">Name:</label>
+        <input type="text" th:field="*{name}" class="form-control" required/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Experience (0-100):</label>
+        <input type="number" th:field="*{experience}" class="form-control" min="0" max="100"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
 </form>
-
 </body>
 </html>

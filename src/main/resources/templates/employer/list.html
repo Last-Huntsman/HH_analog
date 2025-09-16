@@ -16,6 +16,7 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Active</th> <!-- новая колонка -->
         <th>Actions</th>
     </tr>
     </thead>
@@ -24,18 +25,21 @@
         <td th:text="${employer.id}"></td>
         <td th:text="${employer.name}"></td>
         <td>
+            <span th:text="${employer.active ? 'Yes' : 'No'}"
+                  th:classappend="${employer.active ? 'text-success' : 'text-danger'}"></span>
+        </td>
+        <td>
             <a th:href="@{'/view/employer/' + ${employer.id} + '/vacancies'}"
                class="btn btn-info btn-sm">📄 Vacancies</a>
-
             <a th:href="@{'/view/employer/edit/' + ${employer.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
-            <a th:href="@{'/view/employer/delete/' + ${employer.id}}" class="btn btn-danger btn-sm"
-               onclick="return confirm('Are you sure you want to delete this employer?');">
-                🗑 Delete
-            </a>
+
+
         </td>
+
     </tr>
     </tbody>
 </table>
+
 
 <nav th:if="${page.totalPages > 1}">
     <ul class="pagination">

@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Employers</title>
-    <meta charset="UTF-8">
+    <title>Employments</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body class="container mt-4">
-
-<h1>Employers</h1>
-
-<a class="btn btn-success mb-3" th:href="@{/view/employer/create}">➕ Add Employer</a>
-
+<h1>Employments</h1>
+<a class="btn btn-success mb-3" th:href="@{/view/employment/create}">➕ Add Employment</a>
 <table class="table table-striped">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
+        <th>Worker ID</th>
+        <th>Vacancy ID</th>
+        <th>Date Open</th>
+        <th>Date Close</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employer : ${employers}">
-        <td th:text="${employer.id}"></td>
-        <td th:text="${employer.name}"></td>
+    <tr th:each="employment : ${employments}">
+        <td th:text="${employment.id}"></td>
+        <td th:text="${employment.worker_id}"></td>
+        <td th:text="${employment.vacancy_id}"></td>
+        <td th:text="${employment.date_open}"></td>
+        <td th:text="${employment.date_close}"></td>
         <td>
-            <a th:href="@{'/view/employer/edit/' + ${employer.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
-            <a th:href="@{'/view/employer/delete/' + ${employer.id}}" class="btn btn-danger btn-sm"
-               onclick="return confirm('Are you sure you want to delete this employer?');">
-                🗑 Delete
-            </a>
+            <a th:href="@{'/view/employment/edit/' + ${employment.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
+            <a th:href="@{'/view/employment/delete/' + ${employment.id}}" class="btn btn-danger btn-sm"
+               onclick="return confirm('Are you sure you want to delete this employment?');">🗑 Delete</a>
         </td>
     </tr>
     </tbody>
@@ -36,29 +36,18 @@
 
 <nav th:if="${page.totalPages > 1}">
     <ul class="pagination">
-
         <li class="page-item" th:classappend="${page.first}? 'disabled'">
-            <a class="page-link"
-               th:href="@{/view/employer(page=${page.number - 1}, size=${page.size})}">Previous</a>
+            <a class="page-link" th:href="@{/view/employment(page=${page.number - 1}, size=${page.size})}">Previous</a>
         </li>
-
-
         <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-            class="page-item"
-            th:classappend="${i == page.number} ? 'active'">
-            <a class="page-link"
-               th:text="${i + 1}"
-               th:href="@{/view/employer(page=${i}, size=${page.size})}"></a>
+            class="page-item" th:classappend="${i == page.number}? 'active'">
+            <a class="page-link" th:text="${i + 1}"
+               th:href="@{/view/employment(page=${i}, size=${page.size})}"></a>
         </li>
-
-
         <li class="page-item" th:classappend="${page.last}? 'disabled'">
-            <a class="page-link"
-               th:href="@{/view/employer(page=${page.number + 1}, size=${page.size})}">Next</a>
+            <a class="page-link" th:href="@{/view/employment(page=${page.number + 1}, size=${page.size})}">Next</a>
         </li>
-
     </ul>
 </nav>
-
 </body>
 </html>
