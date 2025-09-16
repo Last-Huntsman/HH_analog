@@ -4,10 +4,19 @@ import org.springframework.stereotype.Component;
 import ru.zyuzyukov.kurs_3_db.dto.EmployerDto;
 import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
+import ru.zyuzyukov.kurs_3_db.service.BaseService;
 
 import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class EmployerMapper implements Mapper<EmployerDto, Employer> {
+
+    private final BaseService<Vacancy> vacancyService;
+
+    public EmployerMapper(BaseService<Vacancy> vacancyService) {
+        this.vacancyService = vacancyService;
+    }
 
     @Override
     public EmployerDto toDto(Employer entity) {
@@ -22,10 +31,11 @@ public class EmployerMapper implements Mapper<EmployerDto, Employer> {
 
     @Override
     public Employer toCreateEntity(EmployerDto dto) {
+       List<Vacancy> vacancyList = vacancyService.findAllById(dto.getVacancyList());
         return new Employer(
-                null,
+                dto.getId(),
                 dto.getName(),
-                new ArrayList<>()
+               vacancyList
         );
     }
 }
