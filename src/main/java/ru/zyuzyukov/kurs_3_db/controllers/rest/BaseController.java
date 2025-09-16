@@ -1,4 +1,4 @@
-package ru.zyuzyukov.kurs_3_db.controllers;
+package ru.zyuzyukov.kurs_3_db.controllers.rest;
 
 import jakarta.validation.Valid;
 
