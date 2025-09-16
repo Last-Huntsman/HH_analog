@@ -6,19 +6,22 @@ import ru.zyuzyukov.kurs_3_db.entity.Employment;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 import ru.zyuzyukov.kurs_3_db.entity.Worker;
 import ru.zyuzyukov.kurs_3_db.service.BaseService;
+import ru.zyuzyukov.kurs_3_db.service.VacancyService;
+import ru.zyuzyukov.kurs_3_db.service.WorkerService;
 
 import java.time.LocalDateTime;
 
 @Component
 public class EmploymentMapper implements Mapper<EmploymentDto, Employment> {
 
-    private final BaseService<Vacancy> vacancyService;
-    private final BaseService<Worker> workerService;
+    private final VacancyService vacancyService;
+    private final WorkerService workerService;
 
-    public EmploymentMapper(BaseService<Vacancy> vacancyService, BaseService<Worker> workerService) {
+    public EmploymentMapper(VacancyService vacancyService, WorkerService workerService) {
         this.vacancyService = vacancyService;
         this.workerService = workerService;
     }
+
 
     @Override
     public EmploymentDto toDto(Employment entity) {

@@ -4,17 +4,16 @@ import org.springframework.stereotype.Component;
 import ru.zyuzyukov.kurs_3_db.dto.EmployerDto;
 import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
-import ru.zyuzyukov.kurs_3_db.service.BaseService;
+import ru.zyuzyukov.kurs_3_db.service.VacancyService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class EmployerMapper implements Mapper<EmployerDto, Employer> {
 
-    private final BaseService<Vacancy> vacancyService;
+    private final VacancyService vacancyService;
 
-    public EmployerMapper(BaseService<Vacancy> vacancyService) {
+    public EmployerMapper(VacancyService vacancyService) {
         this.vacancyService = vacancyService;
     }
 

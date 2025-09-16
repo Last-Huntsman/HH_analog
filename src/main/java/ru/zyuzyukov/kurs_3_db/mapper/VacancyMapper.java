@@ -6,21 +6,23 @@ import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Skill;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 import ru.zyuzyukov.kurs_3_db.service.BaseService;
+import ru.zyuzyukov.kurs_3_db.service.EmployerService;
+import ru.zyuzyukov.kurs_3_db.service.SkillService;
 
 import java.util.List;
 
 
 @Component
-
 public class VacancyMapper implements Mapper<VacancyDto, Vacancy> {
 
-    private final BaseService<Skill> skillService;
-    private final BaseService<Employer> employerService;
+    private final SkillService skillService;
+    private final EmployerService employerService;
 
-    public VacancyMapper(BaseService<Skill> skillService, BaseService<Employer> employerService) {
+    public VacancyMapper(SkillService skillService, EmployerService employerService) {
         this.skillService = skillService;
         this.employerService = employerService;
     }
+
 
     @Override
     public VacancyDto toDto(Vacancy entity) {
@@ -44,7 +46,7 @@ public class VacancyMapper implements Mapper<VacancyDto, Vacancy> {
             throw new IllegalArgumentException("Some skills not found");
         }
         return new Vacancy(
-                null,
+                dto.getId(),
                 employer,
                 dto.getSalary(),
                 dto.getDescription(),

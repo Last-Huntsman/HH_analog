@@ -37,7 +37,7 @@ public abstract class BaseViewController<T extends CRUDable, D extends Entitytab
 
 
     @GetMapping
-    public String list(@PageableDefault(size = 10, sort = "name") Pageable pageable,
+    public String list(@PageableDefault(size = 10, sort = "id") Pageable pageable,
                        Model model) {
         Page<T> page = baseService.findAll(pageable).map(mapper::toDto);
         model.addAttribute(longName, page.getContent());

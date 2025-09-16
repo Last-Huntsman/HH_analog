@@ -6,11 +6,12 @@ import ru.zyuzyukov.kurs_3_db.dto.EmployerDto;
 import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.mapper.EmployerMapper;
 import ru.zyuzyukov.kurs_3_db.service.BaseService;
+import ru.zyuzyukov.kurs_3_db.service.EmployerService;
 
 @RestController
 @RequestMapping("/employer")
 public class EmployerController extends BaseController<EmployerDto,Employer> {
-    protected EmployerController(BaseService<Employer> baseService, EmployerMapper mapper) {
+    protected EmployerController(EmployerService baseService, EmployerMapper mapper) {
         super(baseService, mapper);
     }
 }

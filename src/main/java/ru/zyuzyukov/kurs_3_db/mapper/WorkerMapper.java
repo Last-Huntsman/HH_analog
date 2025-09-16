@@ -6,14 +6,15 @@ import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Skill;
 import ru.zyuzyukov.kurs_3_db.entity.Worker;
 import ru.zyuzyukov.kurs_3_db.service.BaseService;
+import ru.zyuzyukov.kurs_3_db.service.SkillService;
 
 import java.util.List;
 
 @Component
 public class WorkerMapper implements  Mapper<WorkerDto, Worker> {
-    private final BaseService<Skill> skillService;
+    private final SkillService skillService;
 
-    public WorkerMapper(BaseService<Skill> skillService) {
+    public WorkerMapper(SkillService skillService) {
         this.skillService = skillService;
     }
 
@@ -32,7 +33,7 @@ public class WorkerMapper implements  Mapper<WorkerDto, Worker> {
     public Worker toCreateEntity(WorkerDto dto) {
         List<Skill> skills = skillService.findAllById(dto.getWorkerSkillsId());
         return new Worker(
-                null,
+                dto.getId(),
                 dto.getName(),
                 dto.getExperience(),
                 skills

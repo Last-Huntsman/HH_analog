@@ -12,6 +12,6 @@ public class SkillMapper implements Mapper<SkillDto, Skill> {
 
     @Override
     public Skill toCreateEntity(SkillDto dto) {
-        return new Skill(null, dto.getName());
+        return new Skill(dto.getId(), dto.getName());
     }
 }

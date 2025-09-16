@@ -17,7 +17,7 @@ import ru.zyuzyukov.kurs_3_db.dto.CRUDable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BaseController<T extends CRUDable,D extends Entitytable> {
+public abstract class BaseController<T extends CRUDable,D extends Entitytable> {
 
     private final BaseService<D> baseService;
     private final Mapper<T,D> mapper;

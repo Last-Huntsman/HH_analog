@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BaseService<T extends Entitytable> {
+public abstract class BaseService<T extends Entitytable> {
     private final JpaRepository<T, UUID> repository;
 
     public BaseService(JpaRepository<T, UUID> repository) {
@@ -40,7 +40,5 @@ public class BaseService<T extends Entitytable> {
 
     }
 
-    public List<T> findAllById(List<UUID> vacancySkills) {
-        return repository.findAllById(vacancySkills);
-    }
+
 }

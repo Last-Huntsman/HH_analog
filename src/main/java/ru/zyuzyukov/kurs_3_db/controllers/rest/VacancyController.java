@@ -6,11 +6,12 @@ import ru.zyuzyukov.kurs_3_db.dto.VacancyDto;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 import ru.zyuzyukov.kurs_3_db.mapper.VacancyMapper;
 import ru.zyuzyukov.kurs_3_db.service.BaseService;
+import ru.zyuzyukov.kurs_3_db.service.VacancyService;
 
 @RestController
 @RequestMapping("/vacancy")
 public class VacancyController extends BaseController<VacancyDto,Vacancy> {
-    protected VacancyController(BaseService<Vacancy> baseService, VacancyMapper vacancyMapper) {
+    protected VacancyController(VacancyService baseService, VacancyMapper vacancyMapper) {
         super(baseService,vacancyMapper);
     }
 }
