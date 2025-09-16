@@ -6,7 +6,6 @@
 </head>
 <body class="container mt-4">
 <h1>Vacancies</h1>
-<a class="btn btn-success mb-3" th:href="@{/view/vacancy/create}">➕ Add Vacancy</a>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -15,21 +14,15 @@
         <th>Post</th>
         <th>Salary</th>
         <th>Active</th>
-        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="vacancy : ${vacancies}">
         <td th:text="${vacancy.id}"></td>
-        <td th:text="${vacancy.employer_id}"></td>
+        <td th:text="${vacancy.employerId}"></td>
         <td th:text="${vacancy.post}"></td>
         <td th:text="${vacancy.salary}"></td>
         <td th:text="${vacancy.active}"></td>
-        <td>
-            <a th:href="@{'/view/vacancy/edit/' + ${vacancy.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
-            <a th:href="@{'/view/vacancy/delete/' + ${vacancy.id}}" class="btn btn-danger btn-sm"
-               onclick="return confirm('Are you sure you want to delete this vacancy?');">🗑 Delete</a>
-        </td>
     </tr>
     </tbody>
 </table>

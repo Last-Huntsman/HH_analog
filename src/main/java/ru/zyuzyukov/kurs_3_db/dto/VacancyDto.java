@@ -22,7 +22,7 @@ public class VacancyDto implements CRUDable {
     //при создании не указываем
     private UUID id;
 
-    private UUID employer_id;
+    private UUID employerId;
     @NotNull
     @Min(value = 0)
     private Integer salary;

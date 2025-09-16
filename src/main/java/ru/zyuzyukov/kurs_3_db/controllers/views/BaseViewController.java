@@ -21,18 +21,18 @@ public abstract class BaseViewController<T extends CRUDable, D extends Entitytab
     private final Mapper<T, D> mapper;
     private final Supplier<T> dtoSupplier; // Для создания нового DTO
     private final String smallName;        // Например "employer"
-    private final String longName;         // Например "employers"
+    private final String generalName;         // Например "employers"
 
     public BaseViewController(BaseService<D> baseService,
                               Mapper<T, D> mapper,
                               Supplier<T> dtoSupplier,
                               String smallName,
-                              String longName) {
+                              String generalName) {
         this.baseService = baseService;
         this.mapper = mapper;
         this.dtoSupplier = dtoSupplier;
         this.smallName = smallName;
-        this.longName = longName;
+        this.generalName = generalName;
     }
 
 
@@ -40,7 +40,7 @@ public abstract class BaseViewController<T extends CRUDable, D extends Entitytab
     public String list(@PageableDefault(size = 10, sort = "id") Pageable pageable,
                        Model model) {
         Page<T> page = baseService.findAll(pageable).map(mapper::toDto);
-        model.addAttribute(longName, page.getContent());
+        model.addAttribute(generalName, page.getContent());
         model.addAttribute("page", page);
         return smallName + "/list";
     }
@@ -59,7 +59,8 @@ public abstract class BaseViewController<T extends CRUDable, D extends Entitytab
         if (bindingResult.hasErrors()) {
             return smallName + "/create";
         }
-        baseService.save(mapper.toCreateEntity(dto));
+        D entity = mapper.toCreateEntity(dto);
+        baseService.save(entity);
         return "redirect:/view/" + smallName;
     }
 

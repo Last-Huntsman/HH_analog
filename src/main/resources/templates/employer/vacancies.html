@@ -11,7 +11,8 @@
 
 <a class="btn btn-secondary mb-3" th:href="@{/view/employer}">⬅ Back to Employers</a>
 <a class="btn btn-success mb-3"
-   th:href="@{'/view/vacancy/create?employerId=' + ${employer.id}}">➕ Add Vacancy</a>
+   th:href="@{/view/vacancy/createvacancy/{id}(id=${employer.id})}">➕ Add Vacancy</a>
+
 
 <table class="table table-striped">
     <thead>
@@ -36,8 +37,6 @@
         </td>
         <td>
             <a th:href="@{'/view/vacancy/edit/' + ${vacancy.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
-            <a th:href="@{'/view/vacancy/delete/' + ${vacancy.id}}" class="btn btn-danger btn-sm"
-               onclick="return confirm('Are you sure you want to delete this vacancy?');">🗑 Delete</a>
         </td>
     </tr>
     </tbody>

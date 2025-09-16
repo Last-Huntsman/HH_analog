@@ -5,7 +5,6 @@ import ru.zyuzyukov.kurs_3_db.dto.VacancyDto;
 import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Skill;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
-import ru.zyuzyukov.kurs_3_db.service.BaseService;
 import ru.zyuzyukov.kurs_3_db.service.EmployerService;
 import ru.zyuzyukov.kurs_3_db.service.SkillService;
 
@@ -40,7 +39,7 @@ public class VacancyMapper implements Mapper<VacancyDto, Vacancy> {
 
     @Override
     public Vacancy toCreateEntity(VacancyDto dto) {
-        Employer employer = employerService.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException("employer not found"));
+        Employer employer = employerService.findById(dto.getEmployerId()).orElseThrow(() -> new IllegalArgumentException("employer not found"));
         List<Skill> skills = skillService.findAllById(dto.getVacancySkills());
         if (skills.size() != dto.getVacancySkills().size()) {
             throw new IllegalArgumentException("Some skills not found");

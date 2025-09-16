@@ -6,27 +6,31 @@
 </head>
 <body class="container mt-4">
 <h1>Create Vacancy</h1>
-<form th:action="@{/view/vacancy/create}" th:object="${vacancyDto}" method="post">
-    <div class="mb-3">
-        <label class="form-label">Employer ID:</label>
-        <input type="text" th:field="*{employer_id}" class="form-control" required/>
-    </div>
+
+<form th:action="@{/view/vacancy/createvacancy}" th:object="${vacancyDto}" method="post">
+    <!-- скрытое поле employerId -->
+    <input type="hidden" th:field="*{employerId}" />
+
     <div class="mb-3">
         <label class="form-label">Post:</label>
         <input type="text" th:field="*{post}" class="form-control" required/>
     </div>
+
     <div class="mb-3">
         <label class="form-label">Salary:</label>
         <input type="number" th:field="*{salary}" class="form-control" min="0" required/>
     </div>
+
     <div class="mb-3">
         <label class="form-label">Description:</label>
         <textarea th:field="*{description}" class="form-control" maxlength="5000" required></textarea>
     </div>
+
     <div class="mb-3 form-check">
         <input type="checkbox" th:field="*{active}" class="form-check-input" checked/>
         <label class="form-check-label">Active</label>
     </div>
+
     <button type="submit" class="btn btn-success">Save</button>
 </form>
 </body>
