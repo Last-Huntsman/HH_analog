@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Employers</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
-<body>
-$END$
+<body class="container mt-4">
+
+<h1>Employers</h1>
+
+<a class="btn btn-success mb-3" th:href="@{/view/employer/create}">➕ Add Employer</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employer : ${employers}">
+        <td th:text="${employer.id}"></td>
+        <td th:text="${employer.name}"></td>
+        <td>
+            <a th:href="@{'/view/employer/edit/' + ${employer.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
+            <a th:href="@{'/view/employer/delete/' + ${employer.id}}" class="btn btn-danger btn-sm"
+               onclick="return confirm('Are you sure you want to delete this employer?');">
+                🗑 Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Пагинация -->
+<nav th:if="${page.totalPages > 1}">
+    <ul class="pagination">
+
+        <!-- Кнопка "Назад" -->
+        <li class="page-item" th:classappend="${page.first}? 'disabled'">
+            <a class="page-link"
+               th:href="@{/view/employer(page=${page.number - 1}, size=${page.size})}">Previous</a>
+        </li>
+
+        <!-- Номера страниц -->
+        <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+            class="page-item"
+            th:classappend="${i == page.number} ? 'active'">
+            <a class="page-link"
+               th:text="${i + 1}"
+               th:href="@{/view/employer(page=${i}, size=${page.size})}"></a>
+        </li>
+
+        <!-- Кнопка "Вперёд" -->
+        <li class="page-item" th:classappend="${page.last}? 'disabled'">
+            <a class="page-link"
+               th:href="@{/view/employer(page=${page.number + 1}, size=${page.size})}">Next</a>
+        </li>
+
+    </ul>
+</nav>
+
 </body>
 </html>

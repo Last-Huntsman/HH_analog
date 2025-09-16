@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Edit Employer</title></head>
 <body>
-$END$
+<h1>Edit Employer</h1>
+<form th:action="@{/view/employer/edit}" th:object="${employerDto}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required/><br/>
+    <button type="submit">Update</button>
+</form>
+
 </body>
 </html>
