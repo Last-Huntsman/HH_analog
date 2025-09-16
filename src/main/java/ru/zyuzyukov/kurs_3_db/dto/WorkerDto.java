@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WorkerDto implements CRUDable {
-
+    //при создании не указываем
     private UUID id;
     @NotBlank()
     @Column(name = "name", length = 50)

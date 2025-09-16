@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacancyDto implements CRUDable {
-
+    //при создании не указываем
     private UUID id;
 
     private UUID employer_id;

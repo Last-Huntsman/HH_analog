@@ -14,12 +14,14 @@ import java.util.UUID;
 @Data
 public class EmploymentDto  implements CRUDable {
 
-
+    //при создании не указываем
     private UUID id;
-
+    //не обязательный
     private UUID worker_id;
 
     private UUID vacancy_id;
+    //при создании не указываем
     private LocalDateTime date_open;
+    // не обязательный параметр
     private LocalDateTime date_close;
 }

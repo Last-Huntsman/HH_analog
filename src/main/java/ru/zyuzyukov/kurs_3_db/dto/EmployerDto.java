@@ -17,12 +17,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 public class EmployerDto implements CRUDable {
-
+    //при создании не указываем
     private UUID id;
     @NotBlank()
     @Column(name = "name", length = 50)
     private String name;
-
+    //при создании не указываем
     private List<UUID> vacancyList = new ArrayList<>();
 
 
