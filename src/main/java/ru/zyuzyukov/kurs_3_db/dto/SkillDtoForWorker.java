@@ -14,16 +14,11 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-
 public class SkillDtoForWorker extends SkillDto {
-    //при создании не указываем
-    private UUID id;
-    @NotBlank()
-    @Column(name = "name", length = 50)
-    private String name;
-
-
+    public SkillDtoForWorker(UUID id, String name, List<Worker> workers) {
+        super(id, name);
+        this.workers = workers;
+    }
 
     private List<Worker> workers = new ArrayList<>();
 }

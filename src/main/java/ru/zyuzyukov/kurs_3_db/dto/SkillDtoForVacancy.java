@@ -11,18 +11,13 @@ import ru.zyuzyukov.kurs_3_db.entity.Worker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-
 public class SkillDtoForVacancy extends SkillDto {
-    //при создании не указываем
-    private UUID id;
-    @NotBlank()
-    @Column(name = "name", length = 50)
-    private String name;
-
+    public SkillDtoForVacancy(UUID id, String name,List<Vacancy> vacancies) {
+        super(id,name);
+        this.vacancies = vacancies;
+    }
     private List<Vacancy> vacancies = new ArrayList<>();
 
 

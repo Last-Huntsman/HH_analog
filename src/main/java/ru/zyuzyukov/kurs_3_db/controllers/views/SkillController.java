@@ -1,13 +1,18 @@
 package ru.zyuzyukov.kurs_3_db.controllers.views;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.zyuzyukov.kurs_3_db.dto.EmployerDto;
+import ru.zyuzyukov.kurs_3_db.dto.SkillDto;
 import ru.zyuzyukov.kurs_3_db.dto.SkillDtoForVacancy;
+import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Skill;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 import ru.zyuzyukov.kurs_3_db.mapper.SkillMapper;
@@ -98,6 +103,65 @@ public class SkillController {
 
         return "redirect:/view/skill/" + employerId+"/"+ vacancyId;
     }
+
+    /** список работодателей */
+    @GetMapping
+    public String list(@PageableDefault(size = 10, sort = "id") Pageable pageable,
+                       Model model) {
+        Page<SkillDto> page = skillService.findAll(pageable)
+                .map(skillMapper::createDto);
+        model.addAttribute("skills", page.getContent());
+        model.addAttribute("page", page);
+        return "skill/list";
+    }
+
+    /** форма создания */
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("skillDto", new SkillDto());
+        return "skill/create";
+    }
+
+    /** обработка создания */
+    @PostMapping("/create")
+    public String create(@Valid @ModelAttribute("skillDto") SkillDto dto,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "skill/create";
+        }
+        Skill entity = skillMapper.createEntity(dto);
+        skillService.save(entity);
+        return "redirect:/view/skill";
+    }
+
+    // Форма редактирования навыка
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable UUID id, Model model) {
+        Skill entity = skillService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Skill not found"));
+        model.addAttribute("skillDto", skillMapper.createDto(entity));
+        return "skill/edit";
+    }
+
+    // Обработка редактирования
+    @PostMapping("/edit")
+    public String update(@Valid @ModelAttribute("skillDto") SkillDto dto,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "skill/edit";
+        }
+        Skill entity = skillMapper.createEntity(dto);
+        skillService.update(entity);
+        return "redirect:/view/skill";
+    }
+
+    // Удаление навыка
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable UUID id) {
+        skillService.delete(id);
+        return "redirect:/view/skill";
+    }
+
 
 
 }

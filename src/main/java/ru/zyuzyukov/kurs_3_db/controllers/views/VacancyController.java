@@ -9,15 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.zyuzyukov.kurs_3_db.dto.SkillDtoForVacancy;
 import ru.zyuzyukov.kurs_3_db.dto.VacancyDto;
 import ru.zyuzyukov.kurs_3_db.entity.Employer;
-import ru.zyuzyukov.kurs_3_db.entity.Skill;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
-import ru.zyuzyukov.kurs_3_db.mapper.SkillMapper;
 import ru.zyuzyukov.kurs_3_db.mapper.VacancyMapper;
 import ru.zyuzyukov.kurs_3_db.service.EmployerService;
-import ru.zyuzyukov.kurs_3_db.service.SkillService;
 import ru.zyuzyukov.kurs_3_db.service.VacancyService;
 
 import java.util.UUID;
@@ -31,7 +27,6 @@ public class VacancyController {
     protected VacancyController(VacancyService vacancyService, VacancyMapper vacancyMapper, EmployerService employerService) {
         this.vacancyService = vacancyService;
         this.vacancyMapper = vacancyMapper;
-
         this.employerService = employerService;
     }
 

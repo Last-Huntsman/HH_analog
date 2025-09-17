@@ -29,5 +29,14 @@ public class Skill  implements  Entitytable {
 
     @ManyToMany(mappedBy = "workerSkills")
     private List<Worker> workers = new ArrayList<>();
+    @PreRemove
+    private void removeSkillFromParents() {
+        for (Vacancy vacancy : new ArrayList<>(vacancies)) {
+            vacancy.getVacancySkills().remove(this);
+        }
+        for (Worker worker : new ArrayList<>(workers)) {
+            worker.getWorkerSkills().remove(this);
+        }
+    }
 
 }

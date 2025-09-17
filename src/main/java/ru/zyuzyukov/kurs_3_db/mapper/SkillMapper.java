@@ -45,4 +45,17 @@ public class SkillMapper {
         }
         throw new IllegalArgumentException("Unsupported DTO type: " + dto.getClass());
     }
+
+    public Skill createEntity(SkillDto dto) {
+        return new Skill(
+                dto.getId(),
+                dto.getName(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        );
+    }
+
+    public SkillDto createDto(Skill entity) {
+        return new SkillDto(entity.getId(), entity.getName());
+    }
 }
