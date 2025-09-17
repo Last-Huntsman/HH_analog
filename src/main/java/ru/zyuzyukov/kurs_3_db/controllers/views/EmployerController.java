@@ -23,18 +23,16 @@ import java.util.UUID;
 @RequestMapping("/view/employer")
 public class EmployerController {
 
-    private final VacancyService vacancyService;
+
     private final EmployerService employerService;
     private final EmployerMapper mapper;
-    private final VacancyMapper vacancyMapper;
+
 
     public EmployerController(EmployerService employerService,
                               EmployerMapper mapper,
                               VacancyService vacancyService, VacancyMapper vacancyMapper) {
         this.mapper = mapper;
-        this.vacancyService = vacancyService;
         this.employerService = employerService;
-        this.vacancyMapper = vacancyMapper;
     }
 
     /** список работодателей */
@@ -88,19 +86,6 @@ public class EmployerController {
     }
 
 
-    /** вакансии конкретного работодателя */
-    @GetMapping("/{id}/vacancies")
-    public String listVacanciesForEmployer(@PageableDefault(size = 10, sort = "id") Pageable pageable,
-                                           Model model,
-                                           @PathVariable UUID id) {
-        Employer employer = employerService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Employer not found"));
-        Page<Vacancy> vacancies = vacancyService.findAllByEmployerId(id, pageable);
-        Page<VacancyDto> vacancyDtos = vacancies.map(vacancyMapper::toDto);
-        model.addAttribute("vacancies", vacancyDtos.getContent());
-        model.addAttribute("page", vacancies);
-        model.addAttribute("employer", employer);
-        return "employer/vacancies";
-    }
+
 
 }

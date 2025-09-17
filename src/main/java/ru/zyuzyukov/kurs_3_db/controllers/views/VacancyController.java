@@ -11,30 +11,32 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.zyuzyukov.kurs_3_db.dto.SkillDtoForVacancy;
 import ru.zyuzyukov.kurs_3_db.dto.VacancyDto;
+import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Skill;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 import ru.zyuzyukov.kurs_3_db.mapper.SkillMapper;
 import ru.zyuzyukov.kurs_3_db.mapper.VacancyMapper;
+import ru.zyuzyukov.kurs_3_db.service.EmployerService;
 import ru.zyuzyukov.kurs_3_db.service.SkillService;
 import ru.zyuzyukov.kurs_3_db.service.VacancyService;
 
-import java.util.List;
 import java.util.UUID;
 
 @Controller("vacancyViewController")
 @RequestMapping("/view/vacancy")
 public class VacancyController {
-    private final VacancyService service;
-    private final VacancyMapper mapper;
+    private final VacancyService vacancyService;
+    private final VacancyMapper vacancyMapper;
     private final SkillService skillService;
     private final SkillMapper skillMapper;
-
-    protected VacancyController(VacancyService service, VacancyMapper mapper, SkillService skillService, SkillMapper skillMapper) {
-        this.service = service;
-        this.mapper = mapper;
+    private final EmployerService employerService;
+    protected VacancyController(VacancyService vacancyService, VacancyMapper vacancyMapper, SkillService skillService, SkillMapper skillMapper, EmployerService employerService) {
+        this.vacancyService = vacancyService;
+        this.vacancyMapper = vacancyMapper;
         this.skillService = skillService;
 
         this.skillMapper = skillMapper;
+        this.employerService = employerService;
     }
 
     @GetMapping("/create/{id}")
@@ -56,16 +58,16 @@ public class VacancyController {
             throw new IllegalArgumentException("Employer ID must not be null");
         }
 
-        Vacancy vacancy = mapper.toCreateEntity(vacancyDto);
-        service.save(vacancy);
+        Vacancy vacancy = vacancyMapper.toCreateEntity(vacancyDto);
+        vacancyService.save(vacancy);
 
         return "redirect:/view/employer/" + vacancyDto.getEmployerId() + "/vacancies";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditVacancyForm(@PathVariable("id") UUID id, Model model) {
-        Vacancy vacancy = service.findById(id).orElseThrow(EntityNotFoundException::new);
-        VacancyDto dto = mapper.toDto(vacancy);
+        Vacancy vacancy = vacancyService.findById(id).orElseThrow(EntityNotFoundException::new);
+        VacancyDto dto = vacancyMapper.toDto(vacancy);
         model.addAttribute("vacancyDto", dto);
         return "vacancy/edit";
     }
@@ -77,8 +79,8 @@ public class VacancyController {
             return "vacancy/edit";
         }
 
-        Vacancy vacancy = mapper.toCreateEntity(vacancyDto);
-        service.update(vacancy);
+        Vacancy vacancy = vacancyMapper.toCreateEntity(vacancyDto);
+        vacancyService.update(vacancy);
         return "redirect:/view/employer/" + vacancy.getEmployer().getId() + "/vacancies";
     }
     @GetMapping("{employerId}/vacancies/{vacancyId}/skills")
@@ -86,7 +88,7 @@ public class VacancyController {
                                        Model model,
                                        @PathVariable("employerId") UUID employerId,
                                        @PathVariable("vacancyId") UUID vacancyId){
-        Vacancy vacancy = service.findById(vacancyId).orElseThrow(EntityNotFoundException::new);
+        Vacancy vacancy = vacancyService.findById(vacancyId).orElseThrow(EntityNotFoundException::new);
 
         Page<Skill> skills = skillService.findByVacancyId(vacancyId,pageable);
         Page<SkillDtoForVacancy> skillDtoForVacancies = skills.map(skillMapper::toVacancyDto);
@@ -94,6 +96,20 @@ public class VacancyController {
         model.addAttribute("skills", skillDtoForVacancies.getContent());
         model.addAttribute("pageable", pageable);
         return "employer/vacancy_skills";
+    }
+    /** вакансии конкретного работодателя */
+    @GetMapping("/{id}")
+    public String listVacanciesForEmployer(@PageableDefault(size = 10, sort = "id") Pageable pageable,
+                                           Model model,
+                                           @PathVariable UUID id) {
+        Employer employer = employerService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Employer not found"));
+        Page<Vacancy> vacancies = vacancyService.findAllByEmployerId(id, pageable);
+        Page<VacancyDto> vacancyDtos = vacancies.map(vacancyMapper::toDto);
+        model.addAttribute("vacancies", vacancyDtos.getContent());
+        model.addAttribute("page", vacancies);
+        model.addAttribute("employer", employer);
+        return "vacancy/employer_vacancies";
     }
 
 
