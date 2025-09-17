@@ -1,14 +1,14 @@
 package ru.zyuzyukov.kurs_3_db.service;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.zyuzyukov.kurs_3_db.entity.Skill;
-import ru.zyuzyukov.kurs_3_db.entity.Worker;
 import ru.zyuzyukov.kurs_3_db.repositories.SkillRepository;
 
 import java.util.List;
 import java.util.UUID;
+
 @Service
 public class SkillService extends BaseService<Skill> {
     private final SkillRepository skillRepository;
@@ -17,7 +17,16 @@ public class SkillService extends BaseService<Skill> {
         super(repository);
         this.skillRepository = repository;
     }
-    public List<Skill> findAllById(List<UUID> vacancySkills) {
-        return skillRepository.findAllById(vacancySkills);
+
+    public Page<Skill> findByVacancyId(UUID vacancyId, Pageable pageable) {
+        return skillRepository.findByVacancies_Id(vacancyId, pageable);
+    }
+
+    public List<Skill> findByVacancyId(UUID vacancyId) {
+        return skillRepository.findByVacancies_Id(vacancyId);
+    }
+
+    public List<Skill> findByWorkerId(UUID workerId) {
+        return skillRepository.findByWorkers_Id(workerId);
     }
 }

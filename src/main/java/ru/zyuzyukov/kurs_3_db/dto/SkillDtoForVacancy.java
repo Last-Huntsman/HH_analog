@@ -1,11 +1,12 @@
-package ru.zyuzyukov.kurs_3_db.entity;
+package ru.zyuzyukov.kurs_3_db.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zyuzyukov.kurs_3_db.dto.CRUDable;
+import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
+import ru.zyuzyukov.kurs_3_db.entity.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +15,15 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Skill  implements  Entitytable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+
+public class SkillDtoForVacancy extends SkillDto {
+    //при создании не указываем
     private UUID id;
     @NotBlank()
-
     @Column(name = "name", length = 50)
     private String name;
-    @ManyToMany(mappedBy = "vacancySkills")
+
     private List<Vacancy> vacancies = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "workerSkills")
-    private List<Worker> workers = new ArrayList<>();
 
 }

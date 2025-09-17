@@ -31,7 +31,7 @@ public class WorkerMapper implements  Mapper<WorkerDto, Worker> {
 
     @Override
     public Worker toCreateEntity(WorkerDto dto) {
-        List<Skill> skills = skillService.findAllById(dto.getWorkerSkillsId());
+        List<Skill> skills = skillService.findByWorkerId(dto.getId());
         return new Worker(
                 dto.getId(),
                 dto.getName(),

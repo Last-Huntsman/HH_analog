@@ -40,7 +40,7 @@ public class VacancyMapper implements Mapper<VacancyDto, Vacancy> {
     @Override
     public Vacancy toCreateEntity(VacancyDto dto) {
         Employer employer = employerService.findById(dto.getEmployerId()).orElseThrow(() -> new IllegalArgumentException("employer not found"));
-        List<Skill> skills = skillService.findAllById(dto.getVacancySkills());
+        List<Skill> skills = skillService.findByVacancyId(dto.getId());
         if (skills.size() != dto.getVacancySkills().size()) {
             throw new IllegalArgumentException("Some skills not found");
         }
