@@ -10,8 +10,7 @@
 <h1>Vacancies for Employer: <span th:text="${employer.name}"></span></h1>
 
 <a class="btn btn-secondary mb-3" th:href="@{/view/employer}">⬅ Back to Employers</a>
-<a class="btn btn-success mb-3"
-   th:href="@{/view/vacancy/createvacancy/{id}(id=${employer.id})}">➕ Add Vacancy</a>
+<a class="btn btn-success mb-3" th:href="@{/view/vacancy/create/{id}(id=${employer.id})}">➕ Add Vacancy</a>
 
 
 <table class="table table-striped">
@@ -36,8 +35,12 @@
                   th:classappend="${vacancy.active ? 'text-success' : 'text-danger'}"></span>
         </td>
         <td>
+
             <a th:href="@{'/view/vacancy/edit/' + ${vacancy.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
+            <a th:href="@{'/view/vacancy/'+${employer.id}+'/vacancies/' + ${vacancy.id} + '/skills'}" class="btn btn-info btn-sm">🛠 Skills</a>
         </td>
+
+
     </tr>
     </tbody>
 </table>
