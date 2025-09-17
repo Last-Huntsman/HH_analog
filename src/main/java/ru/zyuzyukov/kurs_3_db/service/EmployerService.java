@@ -1,24 +1,32 @@
 package ru.zyuzyukov.kurs_3_db.service;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import ru.zyuzyukov.kurs_3_db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 import ru.zyuzyukov.kurs_3_db.repositories.EmployerRepository;
+import ru.zyuzyukov.kurs_3_db.repositories.VacancyRepository;
 
 import java.util.List;
-import java.util.UUID;
+
 @Service
 public class EmployerService extends BaseService<Employer> {
     private final EmployerRepository repository;
-    public EmployerService(EmployerRepository repository) {
+    private final VacancyRepository vacancyRepository;
+
+
+    public EmployerService(EmployerRepository repository, VacancyService vacancyService, VacancyRepository vacancyRepository) {
         super(repository);
         this.repository = repository;
+        this.vacancyRepository = vacancyRepository;
     }
 
     @Override
     public Employer update(Employer employer) {
-        List<Vacancy> list =  repository.findById(employer.getId()).orElse(employer).getVacancyList();
+        List<Vacancy> list = repository.findById(employer.getId()).orElse(employer).getVacancyList();
+        if(!employer.getActive()) {
+            list = list.stream().peek(vacancy->vacancy.setActive(false)).toList();
+            vacancyRepository.saveAll(list);
+        }
         employer.setVacancyList(list);
         return super.update(employer);
     }
