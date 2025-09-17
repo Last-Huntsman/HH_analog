@@ -89,6 +89,15 @@ public class VacancyController {
         model.addAttribute("employer", employer);
         return "vacancy/employer_vacancies";
     }
+    @GetMapping
+    public String list(@PageableDefault(size = 10, sort = "id") Pageable pageable,
+                       Model model) {
+        Page<VacancyDto> page = vacancyService.findAll(pageable)
+                .map(vacancyMapper::toDto);
+        model.addAttribute("vacancies", page.getContent());
+        model.addAttribute("page", page);
+        return "vacancy/list";
+    }
 
 
 }
