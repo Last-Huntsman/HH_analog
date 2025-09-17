@@ -39,11 +39,15 @@ public class VacancyMapper implements Mapper<VacancyDto, Vacancy> {
 
     @Override
     public Vacancy toCreateEntity(VacancyDto dto) {
-        Employer employer = employerService.findById(dto.getEmployerId()).orElseThrow(() -> new IllegalArgumentException("employer not found"));
-        List<Skill> skills = skillService.findByVacancyId(dto.getId());
-        if (skills.size() != dto.getVacancySkills().size()) {
+        Employer employer = employerService.findById(dto.getEmployerId())
+                .orElseThrow(() -> new IllegalArgumentException("employer not found"));
+
+        // Проверяем существование всех переданных навыков
+        List<Skill> skillsFromDb = skillService.findAll(dto.getVacancySkills());
+        if (skillsFromDb.size() != dto.getVacancySkills().size()) {
             throw new IllegalArgumentException("Some skills not found");
         }
+
         return new Vacancy(
                 dto.getId(),
                 employer,
@@ -51,7 +55,8 @@ public class VacancyMapper implements Mapper<VacancyDto, Vacancy> {
                 dto.getDescription(),
                 dto.getPost(),
                 dto.getActive(),
-                skills
+                skillsFromDb
         );
     }
+
 }

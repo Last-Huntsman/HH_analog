@@ -29,4 +29,8 @@ public class SkillService extends BaseService<Skill> {
     public List<Skill> findByWorkerId(UUID workerId) {
         return skillRepository.findByWorkers_Id(workerId);
     }
+    public List<Skill> findAll(List<UUID> skillIds) {
+        return skillRepository.findAllById(skillIds);
+    }
+
 }

@@ -89,7 +89,7 @@ public class VacancyController {
                 .orElseThrow(() -> new IllegalArgumentException("Employer not found"));
         Page<Vacancy> vacancies = vacancyService.findAllByEmployerId(id, pageable);
         Page<VacancyDto> vacancyDtos = vacancies.map(vacancyMapper::toDto);
-        model.addAttribute("vacancies", vacancyDtos.getContent());
+        model.addAttribute("vacancies", vacancyDtos);
         model.addAttribute("page", vacancies);
         model.addAttribute("employer", employer);
         return "vacancy/employer_vacancies";
