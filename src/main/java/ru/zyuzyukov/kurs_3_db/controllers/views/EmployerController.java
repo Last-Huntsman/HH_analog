@@ -29,8 +29,7 @@ public class EmployerController {
 
 
     public EmployerController(EmployerService employerService,
-                              EmployerMapper mapper,
-                              VacancyService vacancyService, VacancyMapper vacancyMapper) {
+                              EmployerMapper mapper) {
         this.mapper = mapper;
         this.employerService = employerService;
     }

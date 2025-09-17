@@ -27,15 +27,11 @@ import java.util.UUID;
 public class VacancyController {
     private final VacancyService vacancyService;
     private final VacancyMapper vacancyMapper;
-    private final SkillService skillService;
-    private final SkillMapper skillMapper;
     private final EmployerService employerService;
-    protected VacancyController(VacancyService vacancyService, VacancyMapper vacancyMapper, SkillService skillService, SkillMapper skillMapper, EmployerService employerService) {
+    protected VacancyController(VacancyService vacancyService, VacancyMapper vacancyMapper, EmployerService employerService) {
         this.vacancyService = vacancyService;
         this.vacancyMapper = vacancyMapper;
-        this.skillService = skillService;
 
-        this.skillMapper = skillMapper;
         this.employerService = employerService;
     }
 
@@ -61,7 +57,7 @@ public class VacancyController {
         Vacancy vacancy = vacancyMapper.toCreateEntity(vacancyDto);
         vacancyService.save(vacancy);
 
-        return "redirect:/view/employer/" + vacancyDto.getEmployerId() + "/vacancies";
+        return "redirect:/view/vacancy/" + vacancy.getEmployer().getId();
     }
 
     @GetMapping("/edit/{id}")
@@ -81,27 +77,14 @@ public class VacancyController {
 
         Vacancy vacancy = vacancyMapper.toCreateEntity(vacancyDto);
         vacancyService.update(vacancy);
-        return "redirect:/view/employer/" + vacancy.getEmployer().getId() + "/vacancies";
-    }
-    @GetMapping("{employerId}/vacancies/{vacancyId}/skills")
-    public String listSkillsForVacancy(@PageableDefault(size = 10, sort = "id") Pageable pageable,
-                                       Model model,
-                                       @PathVariable("employerId") UUID employerId,
-                                       @PathVariable("vacancyId") UUID vacancyId){
-        Vacancy vacancy = vacancyService.findById(vacancyId).orElseThrow(EntityNotFoundException::new);
 
-        Page<Skill> skills = skillService.findByVacancyId(vacancyId,pageable);
-        Page<SkillDtoForVacancy> skillDtoForVacancies = skills.map(skillMapper::toVacancyDto);
-        model.addAttribute("vacancy", vacancy);
-        model.addAttribute("skills", skillDtoForVacancies.getContent());
-        model.addAttribute("pageable", pageable);
-        return "employer/vacancy_skills";
+        return "redirect:/view/vacancy/" + vacancy.getEmployer().getId();
     }
     /** вакансии конкретного работодателя */
-    @GetMapping("/{id}")
+    @GetMapping("/{employerId}")
     public String listVacanciesForEmployer(@PageableDefault(size = 10, sort = "id") Pageable pageable,
                                            Model model,
-                                           @PathVariable UUID id) {
+                                           @PathVariable("employerId") UUID id) {
         Employer employer = employerService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Employer not found"));
         Page<Vacancy> vacancies = vacancyService.findAllByEmployerId(id, pageable);

@@ -1,0 +1,40 @@
+<h1>Skills for Vacancy: <span th:text="${vacancy.post}"></span></h1>
+
+<a class="btn btn-secondary mb-3" th:href="@{/view/vacancy/{id}(id=${vacancy.employer.id})}">⬅ Back</a>
+
+<!-- Список текущих навыков -->
+<h3>Current Skills</h3>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="skill : ${vacancySkills}">
+        <td th:text="${skill.id}"></td>
+        <td th:text="${skill.name}"></td>
+        <td>
+            <form th:action="@{'/view/vacancy/' + ${vacancy.id} + '/skills/remove'}" method="post">
+                <input type="hidden" name="skillId" th:value="${skill.id}">
+                <button type="submit" class="btn btn-danger btn-sm">🗑 Remove</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Список доступных навыков для добавления -->
+<h3>Add New Skills</h3>
+<form th:action="@{'/view/vacancy/' + ${vacancy.id} + '/skills/add'}" method="post" class="mt-3">
+    <div class="input-group">
+        <select name="skillId" class="form-select">
+            <option th:each="skill : ${availableSkills}"
+                    th:value="${skill.id}"
+                    th:text="${skill.name}"></option>
+        </select>
+        <button type="submit" class="btn btn-success">➕ Add Skill</button>
+    </div>
+</form>

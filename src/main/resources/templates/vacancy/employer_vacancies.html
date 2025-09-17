@@ -37,7 +37,7 @@
         <td>
 
             <a th:href="@{'/view/vacancy/edit/' + ${vacancy.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
-            <a th:href="@{'/view/vacancy/'+${employer.id}+'/vacancies/' + ${vacancy.id} + '/skills'}" class="btn btn-info btn-sm">🛠 Skills</a>
+            <a th:href="@{'/view/skill/'+${employer.id}+'/' + ${vacancy.id}}" class="btn btn-info btn-sm">🛠 Skills</a>
         </td>
 
 
