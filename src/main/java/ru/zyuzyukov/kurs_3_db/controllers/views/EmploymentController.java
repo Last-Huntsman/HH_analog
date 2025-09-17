@@ -14,12 +14,6 @@ import ru.zyuzyukov.kurs_3_db.service.BaseService;
 
 @Controller("employmentViewController")
 @RequestMapping("/view/employment")
-public class EmploymentController extends BaseViewController<EmploymentDto,Employment> {
-    protected EmploymentController(BaseService<Employment> baseService, EmploymentMapper mapper) {
-      super(baseService,
-                mapper,
-                EmploymentDto::new,
-                "employment",
-                "employments");
-    }
+public class EmploymentController  {
+
 }

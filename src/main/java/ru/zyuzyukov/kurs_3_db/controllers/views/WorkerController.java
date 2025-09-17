@@ -12,12 +12,6 @@ import ru.zyuzyukov.kurs_3_db.service.BaseService;
 
 @Controller("workerViewController")
 @RequestMapping("/view/worker")
-public class WorkerController extends BaseViewController<WorkerDto,Worker> {
-    protected WorkerController(BaseService<Worker> baseService, WorkerMapper    mapper) {
-        super(baseService,
-                mapper,
-                WorkerDto::new,
-                "worker",
-                "workers");
-    }
+public class WorkerController  {
+
 }
