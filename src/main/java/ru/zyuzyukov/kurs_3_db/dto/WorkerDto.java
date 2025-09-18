@@ -21,9 +21,6 @@ public class WorkerDto implements CRUDable {
     @NotBlank()
     @Column(name = "name", length = 50)
     private String name;
-    @Min(0)
-    @Max(100)
-    private Integer experience=0;
 
     private List<UUID> workerSkillsId = new ArrayList<>();
     private List<UUID> employmentId = new ArrayList<>();

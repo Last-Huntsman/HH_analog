@@ -117,19 +117,7 @@ public class DataGenerator {
         employmentRepository.saveAll(employments);
 
         // --- Пересчёт опыта ---
-        for (Worker worker : workers) {
-            List<Employment> workerEmployments = employments.stream()
-                    .filter(e -> e.getWorker().equals(worker))
-                    .toList();
 
-            int totalExperience = 0;
-            for (Employment e : workerEmployments) {
-                LocalDate end = (e.getDate_closed() != null) ? e.getDate_closed() : LocalDate.now();
-                long years = ChronoUnit.YEARS.between(e.getDate_open(), end);
-                totalExperience += (int) years;
-            }
-            worker.setExperience(totalExperience);
-        }
         workerRepository.saveAll(workers);
 
         System.out.println("✅ Генерация данных завершена!");

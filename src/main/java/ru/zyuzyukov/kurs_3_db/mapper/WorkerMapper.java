@@ -28,7 +28,6 @@ public class WorkerMapper implements  Mapper<WorkerDto, Worker> {
         return new WorkerDto(
                 entity.getId(),
                 entity.getName(),
-                entity.getExperience(),
                 entity.getWorkerSkills().stream().map(Skill::getId).toList(),
                 entity.getEmployments().stream().map(Employment::getId).toList()
         );
@@ -41,7 +40,6 @@ public class WorkerMapper implements  Mapper<WorkerDto, Worker> {
         return new Worker(
                 dto.getId(),
                 dto.getName(),
-                dto.getExperience(),
                 employments,
                 skills
 

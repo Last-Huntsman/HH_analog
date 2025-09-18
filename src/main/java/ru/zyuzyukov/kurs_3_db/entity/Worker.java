@@ -24,10 +24,6 @@ public class Worker implements Entitytable{
     @NotBlank()
     @Column(name = "name", length = 50)
     private String name;
-    @Min(0)
-    @Max(100)
-    private Integer experience=0;
-
     @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employment> employments = new ArrayList<>();
 
