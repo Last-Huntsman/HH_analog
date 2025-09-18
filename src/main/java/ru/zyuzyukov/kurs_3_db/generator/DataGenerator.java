@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.zyuzyukov.kurs_3_db.entity.*;
 import ru.zyuzyukov.kurs_3_db.repositories.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -33,26 +33,29 @@ public class DataGenerator {
 
     private void generateData() {
 
+        // --- Компании ---
         List<Employer> employers = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             Employer employer = new Employer();
             employer.setName("Company " + i);
-            employers.add(employer);
             employer.setActive(true);
+            employers.add(employer);
         }
         employerRepository.saveAll(employers);
 
+        // --- Навыки ---
         List<Skill> skills = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 15; i++) {
             Skill skill = new Skill();
             skill.setName("Skill " + i);
             skills.add(skill);
         }
-
         skillRepository.saveAll(skills);
+
+        // --- Вакансии ---
         List<Vacancy> vacancies = new ArrayList<>();
         for (Employer employer : employers) {
-            int vacancyCount = 2 + random.nextInt(2); // 2 или 3
+            int vacancyCount = 2 + random.nextInt(3); // 2–4 вакансии
             for (int j = 1; j <= vacancyCount; j++) {
                 Vacancy vacancy = new Vacancy();
                 vacancy.setEmployer(employer);
@@ -60,49 +63,60 @@ public class DataGenerator {
                 vacancy.setDescription("Job description for " + vacancy.getPost());
                 vacancy.setSalary(40000 + random.nextInt(60000));
                 vacancy.setActive(true);
+
                 Collections.shuffle(skills);
                 vacancy.setVacancySkills(new ArrayList<>(skills.subList(0, 2 + random.nextInt(4))));
+
                 vacancies.add(vacancy);
             }
         }
         vacancyRepository.saveAll(vacancies);
 
-
-
-
+        // --- Работники ---
         List<Worker> workers = new ArrayList<>();
         for (int i = 1; i <= 50; i++) {
             Worker worker = new Worker();
             worker.setName("Worker " + i);
 
             Collections.shuffle(skills);
-            worker.setWorkerSkills(new ArrayList<>(skills.subList(0, 2 + random.nextInt(4))));
+            worker.setWorkerSkills(new ArrayList<>(skills.subList(0, 1 + random.nextInt(4))));
             workers.add(worker);
         }
-
         workerRepository.saveAll(workers);
 
-
+        // --- Трудоустройства ---
         List<Employment> employments = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            Worker worker = workers.get(random.nextInt(workers.size()));
-            Vacancy vacancy = vacancies.get(random.nextInt(vacancies.size()));
+        for (Worker worker : workers) {
+            int employmentCount = 1 + random.nextInt(5); // 1–5 записей о стаже
+            Set<Vacancy> usedVacancies = new HashSet<>();
 
-            LocalDateTime start = LocalDateTime.now().minusYears(random.nextInt(10))
-                    .minusMonths(random.nextInt(12));
-            LocalDateTime end = start.plusMonths(6 + random.nextInt(48)); // от полугода до 4 лет
+            for (int k = 0; k < employmentCount; k++) {
+                Vacancy vacancy;
+                do {
+                    vacancy = vacancies.get(random.nextInt(vacancies.size()));
+                } while (!usedVacancies.add(vacancy)); // чтобы не было дубликатов
 
-            Employment employment = new Employment();
-            employment.setWorker(worker);
-            employment.setVacancy(vacancy);
-            employment.setDate_open(start);
-            employment.setDate_closed(end);
+                LocalDate start = LocalDate.now()
+                        .minusYears(random.nextInt(10))
+                        .minusMonths(random.nextInt(12));
 
-            employments.add(employment);
+                LocalDate end = start.plusMonths(6 + random.nextInt(36)); // от 0.5 до 3 лет
+                if (end.isAfter(LocalDate.now())) {
+                    end = null; // текущее место работы
+                }
+
+                Employment employment = new Employment();
+                employment.setWorker(worker);
+                employment.setVacancy(vacancy);
+                employment.setDate_open(start);
+                employment.setDate_closed(end);
+
+                employments.add(employment);
+            }
         }
         employmentRepository.saveAll(employments);
 
-
+        // --- Пересчёт опыта ---
         for (Worker worker : workers) {
             List<Employment> workerEmployments = employments.stream()
                     .filter(e -> e.getWorker().equals(worker))
@@ -110,13 +124,14 @@ public class DataGenerator {
 
             int totalExperience = 0;
             for (Employment e : workerEmployments) {
-                long years = ChronoUnit.YEARS.between(e.getDate_open(), e.getDate_closed());
+                LocalDate end = (e.getDate_closed() != null) ? e.getDate_closed() : LocalDate.now();
+                long years = ChronoUnit.YEARS.between(e.getDate_open(), end);
                 totalExperience += (int) years;
             }
             worker.setExperience(totalExperience);
         }
         workerRepository.saveAll(workers);
 
-        System.out.println(" Генерация данных завершена!");
+        System.out.println("✅ Генерация данных завершена!");
     }
 }

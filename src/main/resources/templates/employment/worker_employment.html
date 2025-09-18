@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employment for Worker</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+
+<h1>Employment for Worker: <span th:text="${worker.name}"></span></h1>
+
+<a class="btn btn-secondary mb-3" th:href="@{/view/worker}">⬅ Back</a>
+
+<!-- Текущие стажи -->
+<h3>Assigned Employments</h3>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Vacancy</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employment : ${employments}">
+        <td th:text="${employment.vacancy.post}"></td>
+        <td th:text="${employment.date_open}"></td>
+        <td th:text="${employment.date_closed}"></td>
+        <td>
+            <form th:action="@{'/view/employment/' + ${worker.id} + '/remove'}" method="post">
+                <input type="hidden" name="employmentId" th:value="${employment.id}">
+                <button type="submit" class="btn btn-danger btn-sm">🗑 Remove</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(employments)}">
+        <td colspan="4" class="text-center text-muted">No employments assigned</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Вакансии для добавления -->
+<h3 class="mt-4">Available Vacancies</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="vacancy : ${vacanciesPage.content}">
+        <td th:text="${vacancy.id}"></td>
+        <td th:text="${vacancy.post}"></td>
+        <td>
+            <form th:action="@{'/view/employment/' + ${worker.id} + '/add'}" method="post" class="row g-2">
+                <input type="hidden" name="vacancyId" th:value="${vacancy.id}">
+                <div class="col">
+                    <input type="date" name="start" class="form-control form-control-sm">
+                </div>
+                <div class="col">
+                    <input type="date" name="end" class="form-control form-control-sm">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-success btn-sm">➕ Add</button>
+                </div>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(vacanciesPage.content)}">
+        <td colspan="3" class="text-center text-muted">No available vacancies</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Пагинация -->
+<nav th:if="${vacanciesPage.totalPages > 1}">
+    <ul class="pagination">
+        <li class="page-item" th:classappend="${vacanciesPage.first} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{'/view/employment/' + ${worker.id} + '?page=' + ${vacanciesPage.number - 1} + '&size=' + ${vacanciesPage.size}}">
+                Previous
+            </a>
+        </li>
+        <li class="page-item"
+            th:each="i : ${#numbers.sequence(0, vacanciesPage.totalPages - 1)}"
+            th:classappend="${i == vacanciesPage.number} ? 'active'">
+            <a class="page-link"
+               th:text="${i + 1}"
+               th:href="@{'/view/employment/' + ${worker.id} + '?page=' + ${i} + '&size=' + ${vacanciesPage.size}}"></a>
+        </li>
+        <li class="page-item" th:classappend="${vacanciesPage.last} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{'/view/employment/' + ${worker.id} + '?page=' + ${vacanciesPage.number + 1} + '&size=' + ${vacanciesPage.size}}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>
