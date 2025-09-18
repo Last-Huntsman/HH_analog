@@ -9,13 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.zyuzyukov.kurs_3_db.dto.EmployerDto;
-import ru.zyuzyukov.kurs_3_db.dto.VacancyDto;
-import ru.zyuzyukov.kurs_3_db.entity.Employer;
-import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
+import ru.zyuzyukov.kurs_3_db.db.entity.Employer;
 import ru.zyuzyukov.kurs_3_db.mapper.EmployerMapper;
-import ru.zyuzyukov.kurs_3_db.mapper.VacancyMapper;
-import ru.zyuzyukov.kurs_3_db.service.EmployerService;
-import ru.zyuzyukov.kurs_3_db.service.VacancyService;
+import ru.zyuzyukov.kurs_3_db.db.service.EmployerService;
 
 import java.util.UUID;
 

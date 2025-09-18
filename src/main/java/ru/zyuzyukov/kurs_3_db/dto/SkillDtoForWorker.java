@@ -1,12 +1,8 @@
 package ru.zyuzyukov.kurs_3_db.dto;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
-import ru.zyuzyukov.kurs_3_db.entity.Worker;
+import ru.zyuzyukov.kurs_3_db.db.entity.Worker;
 
 import java.util.ArrayList;
 import java.util.List;

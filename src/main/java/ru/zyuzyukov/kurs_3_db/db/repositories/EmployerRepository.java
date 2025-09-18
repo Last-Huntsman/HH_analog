@@ -1,7 +1,7 @@
-package ru.zyuzyukov.kurs_3_db.repositories;
+package ru.zyuzyukov.kurs_3_db.db.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.zyuzyukov.kurs_3_db.entity.Employer;
+import ru.zyuzyukov.kurs_3_db.db.entity.Employer;
 
 import java.util.UUID;
 

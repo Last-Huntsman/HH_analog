@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zyuzyukov.kurs_3_db.entity.Employer;
-import ru.zyuzyukov.kurs_3_db.entity.Entitytable;
 
 import java.util.ArrayList;
 import java.util.List;

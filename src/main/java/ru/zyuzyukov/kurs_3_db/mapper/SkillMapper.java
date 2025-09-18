@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.zyuzyukov.kurs_3_db.dto.SkillDto;
 import ru.zyuzyukov.kurs_3_db.dto.SkillDtoForVacancy;
 import ru.zyuzyukov.kurs_3_db.dto.SkillDtoForWorker;
-import ru.zyuzyukov.kurs_3_db.entity.Skill;
+import ru.zyuzyukov.kurs_3_db.db.entity.Skill;
 
 import java.util.ArrayList;
 

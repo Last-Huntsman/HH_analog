@@ -1,11 +1,10 @@
-package ru.zyuzyukov.kurs_3_db.generator;
+package ru.zyuzyukov.kurs_3_db.db.generator;
 
 import org.springframework.stereotype.Component;
-import ru.zyuzyukov.kurs_3_db.entity.*;
-import ru.zyuzyukov.kurs_3_db.repositories.*;
+import ru.zyuzyukov.kurs_3_db.db.entity.*;
+import ru.zyuzyukov.kurs_3_db.db.repositories.*;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Component

@@ -1,11 +1,10 @@
-package ru.zyuzyukov.kurs_3_db.entity;
+package ru.zyuzyukov.kurs_3_db.db.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zyuzyukov.kurs_3_db.dto.CRUDable;
 
 import java.util.ArrayList;
 import java.util.List;

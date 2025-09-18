@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.zyuzyukov.kurs_3_db.dto.WorkerDto;
-import ru.zyuzyukov.kurs_3_db.entity.Worker;
+import ru.zyuzyukov.kurs_3_db.db.entity.Worker;
 import ru.zyuzyukov.kurs_3_db.mapper.WorkerMapper;
-import ru.zyuzyukov.kurs_3_db.service.WorkerService;
+import ru.zyuzyukov.kurs_3_db.db.service.WorkerService;
 
 import java.util.UUID;
 

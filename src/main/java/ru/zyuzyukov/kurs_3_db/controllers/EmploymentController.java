@@ -7,10 +7,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.zyuzyukov.kurs_3_db.entity.Employment;
-import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
-import ru.zyuzyukov.kurs_3_db.entity.Worker;
-import ru.zyuzyukov.kurs_3_db.service.*;
+import ru.zyuzyukov.kurs_3_db.db.entity.Employment;
+import ru.zyuzyukov.kurs_3_db.db.entity.Vacancy;
+import ru.zyuzyukov.kurs_3_db.db.entity.Worker;
+import ru.zyuzyukov.kurs_3_db.db.service.EmploymentService;
+import ru.zyuzyukov.kurs_3_db.db.service.VacancyService;
+import ru.zyuzyukov.kurs_3_db.db.service.WorkerService;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,11 +1,10 @@
-package ru.zyuzyukov.kurs_3_db.service;
+package ru.zyuzyukov.kurs_3_db.db.service;
 
 import org.springframework.stereotype.Service;
-import ru.zyuzyukov.kurs_3_db.entity.Skill;
-import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
-import ru.zyuzyukov.kurs_3_db.entity.Worker;
-import ru.zyuzyukov.kurs_3_db.repositories.SkillRepository;
-import ru.zyuzyukov.kurs_3_db.repositories.WorkerRepository;
+import ru.zyuzyukov.kurs_3_db.db.entity.Skill;
+import ru.zyuzyukov.kurs_3_db.db.entity.Worker;
+import ru.zyuzyukov.kurs_3_db.db.repositories.SkillRepository;
+import ru.zyuzyukov.kurs_3_db.db.repositories.WorkerRepository;
 
 import java.util.List;
 import java.util.UUID;

@@ -2,11 +2,11 @@ package ru.zyuzyukov.kurs_3_db.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.zyuzyukov.kurs_3_db.dto.VacancyDto;
-import ru.zyuzyukov.kurs_3_db.entity.Employer;
-import ru.zyuzyukov.kurs_3_db.entity.Skill;
-import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
-import ru.zyuzyukov.kurs_3_db.service.EmployerService;
-import ru.zyuzyukov.kurs_3_db.service.SkillService;
+import ru.zyuzyukov.kurs_3_db.db.entity.Employer;
+import ru.zyuzyukov.kurs_3_db.db.entity.Skill;
+import ru.zyuzyukov.kurs_3_db.db.entity.Vacancy;
+import ru.zyuzyukov.kurs_3_db.db.service.EmployerService;
+import ru.zyuzyukov.kurs_3_db.db.service.SkillService;
 
 import java.util.List;
 

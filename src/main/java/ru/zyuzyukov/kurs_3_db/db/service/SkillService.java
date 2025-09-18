@@ -1,12 +1,12 @@
-package ru.zyuzyukov.kurs_3_db.service;
+package ru.zyuzyukov.kurs_3_db.db.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.zyuzyukov.kurs_3_db.entity.Skill;
-import ru.zyuzyukov.kurs_3_db.repositories.SkillRepository;
-import ru.zyuzyukov.kurs_3_db.repositories.VacancyRepository;
+import ru.zyuzyukov.kurs_3_db.db.entity.Skill;
+import ru.zyuzyukov.kurs_3_db.db.repositories.SkillRepository;
+import ru.zyuzyukov.kurs_3_db.db.repositories.VacancyRepository;
 
 import java.util.List;
 import java.util.UUID;
