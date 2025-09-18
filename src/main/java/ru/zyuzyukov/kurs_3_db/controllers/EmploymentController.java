@@ -1,4 +1,4 @@
-package ru.zyuzyukov.kurs_3_db.controllers.views;
+package ru.zyuzyukov.kurs_3_db.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

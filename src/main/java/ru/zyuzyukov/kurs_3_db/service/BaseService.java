@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import ru.zyuzyukov.kurs_3_db.entity.Entitytable;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,6 +37,9 @@ public abstract class BaseService<T extends Entitytable> {
         repository.deleteById(id);
         return true;
 
+    }
+    public long count() {
+        return repository.count();
     }
 
 
