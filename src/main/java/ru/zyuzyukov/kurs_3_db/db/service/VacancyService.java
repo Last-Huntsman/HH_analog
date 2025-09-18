@@ -37,6 +37,16 @@ public class VacancyService extends BaseService<Vacancy> {
 
 
     @Override
+    public Vacancy save(Vacancy vacancy) {
+        Boolean activeEmployer = employerRepository.findById(vacancy.getEmployer().getId()).orElseThrow(()->
+                new IllegalArgumentException("emloyer not found")).getActive();
+        if(!activeEmployer) {
+            vacancy.setActive(false);
+        }
+        return super.save(vacancy);
+    }
+
+    @Override
     public Vacancy update(Vacancy vacancy) {
         Boolean activeEmployer = employerRepository.findById(vacancy.getEmployer().getId()).orElseThrow(()->
                 new IllegalArgumentException("emloyer not found")).getActive();
