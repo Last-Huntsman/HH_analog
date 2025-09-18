@@ -3,7 +3,9 @@ package ru.zyuzyukov.kurs_3_db.controllers;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,12 +92,30 @@ public class VacancyController {
         return "vacancy/employer_vacancies";
     }
     @GetMapping
-    public String list(@PageableDefault(size = 10, sort = "id") Pageable pageable,
-                       Model model) {
-        Page<VacancyDto> page = vacancyService.findAll(pageable)
-                .map(vacancyMapper::toDto);
-        model.addAttribute("vacancies", page.getContent());
-        model.addAttribute("page", page);
+    public String listVacancies(@RequestParam(required = false) String post,
+                                @RequestParam(required = false) String employer,
+                                @RequestParam(required = false) Integer minSalary,
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "10") int size,
+                                @RequestParam(defaultValue = "post") String sort,
+                                @RequestParam(defaultValue = "asc") String dir,
+                                Model model) {
+
+        Pageable pageable = PageRequest.of(page, size,
+                dir.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
+
+        Page<Vacancy> vacancies = vacancyService.getVacancies(post, employer, minSalary, pageable);
+
+        model.addAttribute("vacancies", vacancies.getContent());
+        model.addAttribute("page", vacancies);
+
+        // для сохранения параметров в форме и пагинации
+        model.addAttribute("post", post);
+        model.addAttribute("employer", employer);
+        model.addAttribute("minSalary", minSalary);
+        model.addAttribute("sort", sort);
+        model.addAttribute("dir", dir);
+
         return "vacancy/list";
     }
 

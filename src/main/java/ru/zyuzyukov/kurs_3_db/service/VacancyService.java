@@ -1,5 +1,6 @@
 package ru.zyuzyukov.kurs_3_db.service;
 
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import ru.zyuzyukov.kurs_3_db.repositories.EmployerRepository;
 import ru.zyuzyukov.kurs_3_db.repositories.SkillRepository;
 import ru.zyuzyukov.kurs_3_db.repositories.VacancyRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -62,5 +64,26 @@ public class VacancyService extends BaseService<Vacancy> {
             vacancy.getVacancySkills().add(skill);
             vacancyRepository.save(vacancy);
         }
+    }
+    public Page<Vacancy> getVacancies(String post, String employerName, Integer minSalary,
+                                      Pageable pageable) {
+        return vacancyRepository.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (post != null && !post.isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("post")), "%" + post.toLowerCase() + "%"));
+            }
+
+            if (employerName != null && !employerName.isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("employer").get("name")),
+                        "%" + employerName.toLowerCase() + "%"));
+            }
+
+            if (minSalary != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("salary"), minSalary));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        }, pageable);
     }
 }
