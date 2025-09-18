@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class EmploymentDto  implements CRUDable {
 
     private UUID vacancy_id;
     //при создании не указываем
-    private LocalDateTime date_open;
+    private LocalDate date_open;
     // не обязательный параметр
-    private LocalDateTime date_close;
+    private LocalDate date_close;
 }

@@ -5,11 +5,10 @@ import ru.zyuzyukov.kurs_3_db.dto.EmploymentDto;
 import ru.zyuzyukov.kurs_3_db.entity.Employment;
 import ru.zyuzyukov.kurs_3_db.entity.Vacancy;
 import ru.zyuzyukov.kurs_3_db.entity.Worker;
-import ru.zyuzyukov.kurs_3_db.service.BaseService;
 import ru.zyuzyukov.kurs_3_db.service.VacancyService;
 import ru.zyuzyukov.kurs_3_db.service.WorkerService;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Component
 public class EmploymentMapper implements Mapper<EmploymentDto, Employment> {
@@ -44,7 +43,7 @@ public class EmploymentMapper implements Mapper<EmploymentDto, Employment> {
                 worker,
                 vacancy,
                 dto.getDate_close(),
-               LocalDateTime.now()
+                LocalDate.now()
 
         );
     }

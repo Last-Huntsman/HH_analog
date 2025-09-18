@@ -28,6 +28,8 @@ public class Worker implements Entitytable{
     @Max(100)
     private Integer experience=0;
 
+    @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Employment> employments = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "workers_skills",

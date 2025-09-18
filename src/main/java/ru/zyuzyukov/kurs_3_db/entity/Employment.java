@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.zyuzyukov.kurs_3_db.dto.CRUDable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,6 +25,6 @@ public class Employment  implements Entitytable {
     @ManyToOne
     @JoinColumn(name = "vacancy_id", nullable = false)
     private Vacancy vacancy;
-    private LocalDateTime date_open;
-    private LocalDateTime date_closed;
+    private LocalDate date_open;
+    private LocalDate date_closed;
 }

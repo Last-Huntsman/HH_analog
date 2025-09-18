@@ -26,4 +26,5 @@ public class WorkerDto implements CRUDable {
     private Integer experience=0;
 
     private List<UUID> workerSkillsId = new ArrayList<>();
+    private List<UUID> employmentId = new ArrayList<>();
 }
