@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vacancy Skills</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+
+<h1>Skills for Vacancy: <span th:text="${vacancy.post}"></span></h1>
+
+<a class="btn btn-secondary mb-3"
+   th:href="@{/view/vacancy/{id}(id=${vacancy.employer.id})}">⬅ Back</a>
+
+<!-- Текущие навыки вакансии -->
+<h3>Current Skills</h3>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Skill</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="skill : ${vacancySkills}">
+        <td th:text="${skill.id}"></td>
+        <td th:text="${skill.name}"></td>
+        <td>
+            <form th:action="@{'/view/skill/' + ${vacancy.id} + '/remove'}" method="post">
+                <input type="hidden" name="skillId" th:value="${skill.id}">
+                <button type="submit" class="btn btn-danger btn-sm">🗑 Remove</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(vacancySkills)}">
+        <td colspan="3" class="text-center text-muted">No skills assigned</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Навыки для добавления -->
+<h3 class="mt-4">Available Skills</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Skill</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="skill : ${otherSkillsPage}">
+        <td th:text="${skill.id}"></td>
+        <td th:text="${skill.name}"></td>
+        <td>
+            <form th:action="@{'/view/skill/' + ${vacancy.id} + '/skills/add'}" method="post">
+                <input type="hidden" name="skillId" th:value="${skill.id}">
+                <button type="submit" class="btn btn-success btn-sm">➕ Add</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(otherSkillsPage)}">
+        <td colspan="3" class="text-center text-muted">No available skills</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Пагинация -->
+<nav th:if="${otherSkillsPage.totalPages > 1}">
+    <ul class="pagination">
+        <li class="page-item" th:classappend="${otherSkillsPage.first} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{'/view/skill/' + ${vacancy.employer.id} + '/' + ${vacancy.id}(page=${otherSkillsPage.number - 1}, size=${otherSkillsPage.size})}">
+                Previous
+            </a>
+        </li>
+        <li class="page-item"
+            th:each="i : ${#numbers.sequence(0, otherSkillsPage.totalPages - 1)}"
+            th:classappend="${i == otherSkillsPage.number} ? 'active'">
+            <a class="page-link"
+               th:href="@{'/view/skill/' + ${vacancy.employer.id} + '/' + ${vacancy.id}(page=${i}, size=${otherSkillsPage.size})}"
+               th:text="${i + 1}">1</a>
+        </li>
+        <li class="page-item" th:classappend="${otherSkillsPage.last} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{'/view/skill/' + ${vacancy.employer.id} + '/' + ${vacancy.id}(page=${otherSkillsPage.number + 1}, size=${otherSkillsPage.size})}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>
