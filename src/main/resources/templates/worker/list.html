@@ -25,6 +25,7 @@
             <a th:href="@{'/view/worker/edit/' + ${worker.id}}" class="btn btn-primary btn-sm">✏️ Edit</a>
             <a th:href="@{'/view/worker/delete/' + ${worker.id}}" class="btn btn-danger btn-sm"
                onclick="return confirm('Are you sure you want to delete this worker?');">🗑 Delete</a>
+            <a th:href="@{'/view/skill/'+${worker.id}}" class="btn btn-info btn-sm">🛠 Skills</a>
         </td>
     </tr>
     </tbody>

@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Vacancy Skills</title>
+    <title>Worker Skills</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body class="container mt-4">
 
-<h1>Skills for Vacancy: <span th:text="${vacancy.post}"></span></h1>
+<h1>Skills for Worker: <span th:text="${worker.name}"></span></h1>
 
-<a class="btn btn-secondary mb-3"
-   th:href="@{/view/vacancy/{id}(id=${vacancy.employer.id})}">⬅ Back</a>
+<a class="btn btn-secondary mb-3" th:href="@{/view/worker}">⬅ Back</a>
 
-<!-- Текущие навыки вакансии -->
-<h3>Current Skills</h3>
+<!-- Текущие навыки -->
+<h3>Assigned Skills</h3>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -23,17 +22,18 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="skill : ${vacancySkills}">
+    <tr th:each="skill : ${workerSkills}">
         <td th:text="${skill.id}"></td>
         <td th:text="${skill.name}"></td>
         <td>
-            <form th:action="@{'/view/skill/' + ${vacancy.id} + '/remove'}" method="post">
+            <!-- ✅ соответствует @PostMapping("{workerId}/remove/worker") -->
+            <form th:action="@{'/view/skill/' + ${worker.id} + '/remove/worker'}" method="post">
                 <input type="hidden" name="skillId" th:value="${skill.id}">
                 <button type="submit" class="btn btn-danger btn-sm">🗑 Remove</button>
             </form>
         </td>
     </tr>
-    <tr th:if="${#lists.isEmpty(vacancySkills)}">
+    <tr th:if="${#lists.isEmpty(workerSkills)}">
         <td colspan="3" class="text-center text-muted">No skills assigned</td>
     </tr>
     </tbody>
@@ -50,17 +50,18 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="skill : ${otherSkillsPage}">
+    <tr th:each="skill : ${otherSkillsPage.content}">
         <td th:text="${skill.id}"></td>
         <td th:text="${skill.name}"></td>
         <td>
-            <form th:action="@{'/view/skill/' + ${vacancy.id} + '/skills/add'}" method="post">
+            <!-- ✅ соответствует @PostMapping("{workerId}/skills/add/worker") -->
+            <form th:action="@{'/view/skill/' + ${worker.id} + '/skills/add/worker'}" method="post">
                 <input type="hidden" name="skillId" th:value="${skill.id}">
                 <button type="submit" class="btn btn-success btn-sm">➕ Add</button>
             </form>
         </td>
     </tr>
-    <tr th:if="${#lists.isEmpty(otherSkillsPage)}">
+    <tr th:if="${#lists.isEmpty(otherSkillsPage.content)}">
         <td colspan="3" class="text-center text-muted">No available skills</td>
     </tr>
     </tbody>
@@ -71,7 +72,7 @@
     <ul class="pagination">
         <li class="page-item" th:classappend="${otherSkillsPage.first} ? 'disabled'">
             <a class="page-link"
-               th:href="@{'/view/skill/' + ${vacancy.employer.id} + '/' + ${vacancy.id}(page=${otherSkillsPage.number - 1}, size=${otherSkillsPage.size})}">
+               th:href="@{'/view/skill/' + ${worker.id} + '?page=' + ${otherSkillsPage.number - 1} + '&size=' + ${otherSkillsPage.size}}">
                 Previous
             </a>
         </li>
@@ -79,12 +80,12 @@
             th:each="i : ${#numbers.sequence(0, otherSkillsPage.totalPages - 1)}"
             th:classappend="${i == otherSkillsPage.number} ? 'active'">
             <a class="page-link"
-               th:href="@{'/view/skill/' + ${vacancy.employer.id} + '/' + ${vacancy.id}(page=${i}, size=${otherSkillsPage.size})}"
-               th:text="${i + 1}">1</a>
+               th:text="${i + 1}"
+               th:href="@{'/view/skill/' + ${worker.id} + '?page=' + ${i} + '&size=' + ${otherSkillsPage.size}}"></a>
         </li>
         <li class="page-item" th:classappend="${otherSkillsPage.last} ? 'disabled'">
             <a class="page-link"
-               th:href="@{'/view/skill/' + ${vacancy.employer.id} + '/' + ${vacancy.id}(page=${otherSkillsPage.number + 1}, size=${otherSkillsPage.size})}">
+               th:href="@{'/view/skill/' + ${worker.id} + '?page=' + ${otherSkillsPage.number + 1} + '&size=' + ${otherSkillsPage.size}}">
                 Next
             </a>
         </li>
