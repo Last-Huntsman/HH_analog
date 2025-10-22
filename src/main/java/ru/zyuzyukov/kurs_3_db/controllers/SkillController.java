@@ -38,136 +38,117 @@ public class SkillController {
         this.workerService = workerService;
     }
 
-    @GetMapping("{employerId}/{vacancyId}")
-    public String listSkillsForVacancy(
-            @PageableDefault(size = 10, sort = "name") Pageable pageable,
-            Model model,
-            @PathVariable("employerId") UUID employerId,
-            @PathVariable("vacancyId") UUID vacancyId) {
+    @Controller
+    @RequestMapping("/view/skill")
+    public class VacancySkillController {
 
-        Vacancy vacancy = vacancyService.findById(vacancyId)
-                .orElseThrow(EntityNotFoundException::new);
+        private final VacancyService vacancyService;
+        private final SkillService skillService;
 
+        public VacancySkillController(VacancyService vacancyService, SkillService skillService) {
+            this.vacancyService = vacancyService;
+            this.skillService = skillService;
+        }
 
-        List<SkillDtoForVacancy> vacancySkills = vacancy.getVacancySkills().stream()
-                .map(skillMapper::toVacancyDto)
-                .toList();
+        // ----------------------------------------------------------------------
+        // 📋 Навыки конкретной вакансии
+        // ----------------------------------------------------------------------
+        @GetMapping("{employerId}/{vacancyId}")
+        public String listSkillsForVacancy(
+                @PageableDefault(size = 10, sort = "name") Pageable pageable,
+                Model model,
+                @PathVariable("employerId") UUID employerId,
+                @PathVariable("vacancyId") UUID vacancyId) {
 
+            Vacancy vacancy = vacancyService.findById(vacancyId)
+                    .orElseThrow(EntityNotFoundException::new);
 
-        Page<Skill> allSkillsPage = skillService.findAll(pageable);
+            List<Skill> vacancySkills = vacancy.getVacancySkills();
 
+            List<UUID> existingSkillIds = vacancySkills.stream()
+                    .map(Skill::getId)
+                    .toList();
 
-        List<UUID> vacancySkillIds = vacancy.getVacancySkills().stream()
-                .map(Skill::getId)
-                .toList();
+            // Получаем только доступные навыки (исключаем уже добавленные)
+            Page<Skill> availableSkillsPage = skillService.findAllExcludingIds(existingSkillIds, pageable);
 
+            model.addAttribute("vacancy", vacancy);
+            model.addAttribute("vacancySkills", vacancySkills);
+            model.addAttribute("otherSkillsPage", availableSkillsPage);
 
-        List<Skill> filteredSkills = allSkillsPage.getContent().stream()
-                .filter(skill -> !vacancySkillIds.contains(skill.getId()))
-                .toList();
+            return "skill/vacancy_skills"; // 👈 Один шаблон для списка и доступных навыков
+        }
 
+        // Добавление навыка
+        @PostMapping("{vacancyId}/skills/add")
+        public String addSkillToVacancy(@PathVariable UUID vacancyId,
+                                        @RequestParam UUID skillId) {
+            vacancyService.addSkill(vacancyId, skillId);
+            UUID employerId = vacancyService.findById(vacancyId)
+                    .orElseThrow(EntityNotFoundException::new)
+                    .getEmployer().getId();
+            return "redirect:/view/skill/" + employerId + "/" + vacancyId;
+        }
 
-        Page<Skill> otherSkillsPage = new org.springframework.data.domain.PageImpl<>(
-                filteredSkills,
-                pageable,
-                allSkillsPage.getTotalElements() - vacancySkillIds.size()
-        );
-
-
-        model.addAttribute("vacancy", vacancy);
-        model.addAttribute("vacancySkills", vacancySkills);
-        model.addAttribute("otherSkillsPage", otherSkillsPage);
-
-        return "skill/vacancy_skills";
+        // Удаление навыка
+        @PostMapping("{vacancyId}/remove")
+        public String removeSkillFromVacancy(@PathVariable UUID vacancyId,
+                                             @RequestParam UUID skillId) {
+            vacancyService.removeSkillById(vacancyId, skillId);
+            UUID employerId = vacancyService.findById(vacancyId)
+                    .orElseThrow(EntityNotFoundException::new)
+                    .getEmployer().getId();
+            return "redirect:/view/skill/" + employerId + "/" + vacancyId;
+        }
     }
 
 
-    @PostMapping("{vacancyId}/remove")
-    public String removeSkillsForVacancy(
-            @PathVariable UUID vacancyId,
-            @RequestParam UUID skillId) {
+    //-------------------------------------------------
+        // 📋 Навыки конкретного работника
+        @GetMapping("/{workerId}")
+        public String listSkillsForWorker(
+                @PageableDefault(size = 10, sort = "name") Pageable pageable,
+                Model model,
+                @PathVariable UUID workerId) {
 
-        vacancyService.removeSkillById(vacancyId, skillId);
-        UUID employerId = vacancyService.findById(vacancyId)
-                .orElseThrow(EntityNotFoundException::new)
-                .getEmployer().getId();
+            Worker worker = workerService.findById(workerId)
+                    .orElseThrow(EntityNotFoundException::new);
 
-        return "redirect:/view/skill/" + employerId + "/" + vacancyId;
-    }
+            List<SkillDtoForWorker> workerSkills = worker.getWorkerSkills().stream()
+                    .map(skillMapper::toWorkerDto)
+                    .toList();
 
+            List<UUID> existingSkillIds = worker.getWorkerSkills().stream()
+                    .map(Skill::getId)
+                    .toList();
 
-    @PostMapping("{vacancyId}/skills/add")
-    public String addSkillsForVacancy(@PathVariable UUID vacancyId,
-                                      @RequestParam UUID skillId) {
-        vacancyService.addSkill(vacancyId, skillId);
-        UUID employerId = vacancyService.findById(vacancyId)
-                .orElseThrow(EntityNotFoundException::new)
-                .getEmployer().getId();
+            // Получаем только доступные навыки (исключаем уже добавленные)
+            Page<Skill> availableSkillsPage = skillService.findAllExcludingIds(existingSkillIds, pageable);
 
-        return "redirect:/view/skill/" + employerId + "/" + vacancyId;
-    }
-//-------------------------------------------
-    @GetMapping("{workerId}")
-    public String listSkillsForWorker(
-            @PageableDefault(size = 10, sort = "name") Pageable pageable,
-            Model model,
-            @PathVariable("workerId") UUID workerId) {
+            model.addAttribute("worker", worker);
+            model.addAttribute("workerSkills", workerSkills);
+            model.addAttribute("otherSkillsPage", availableSkillsPage);
 
-        Worker worker = workerService.findById(workerId)
-                .orElseThrow(EntityNotFoundException::new);
+            return "skill/worker_skills"; // 👈 один шаблон
+        }
 
+        // Добавление навыка
+        @PostMapping("/{workerId}/add/worker")
+        public String addSkillToWorker(@PathVariable UUID workerId,
+                                       @RequestParam UUID skillId) {
+            workerService.addSkill(workerId, skillId);
+            return "redirect:/view/skill/" + workerId;
+        }
 
-        List<SkillDtoForWorker> workerSkills = worker.getWorkerSkills().stream()
-                .map(skillMapper::toWorkerDto)
-                .toList();
-
-
-        Page<Skill> allSkillsPage = skillService.findAll(pageable);
-
-
-        List<UUID> workerSkillsId = worker.getWorkerSkills().stream()
-                .map(Skill::getId)
-                .toList();
+        // Удаление навыка
+        @PostMapping("/{workerId}/remove/worker")
+        public String removeSkillFromWorker(@PathVariable UUID workerId,
+                                            @RequestParam UUID skillId) {
+            workerService.removeSkillById(workerId, skillId);
+            return "redirect:/view/skill/" + workerId;
+        }
 
 
-        List<Skill> filteredSkills = allSkillsPage.getContent().stream()
-                .filter(skill -> !workerSkillsId.contains(skill.getId()))
-                .toList();
-
-
-        Page<Skill> otherSkillsPage = new org.springframework.data.domain.PageImpl<>(
-                filteredSkills,
-                pageable,
-                allSkillsPage.getTotalElements() - workerSkillsId.size()
-        );
-
-
-        model.addAttribute("worker", worker);
-        model.addAttribute("workerSkills", workerSkills);
-        model.addAttribute("otherSkillsPage", otherSkillsPage);
-
-        return "skill/worker_skills";
-    }
-
-
-    @PostMapping("{workerId}/remove/worker")
-    public String removeSkillsForWorker(
-            @PathVariable UUID workerId,
-            @RequestParam UUID skillId) {
-
-        workerService.removeSkillById(workerId, skillId);
-
-
-        return "redirect:/view/skill/" + workerId ;
-    }
-
-
-    @PostMapping("{workerId}/skills/add/worker")
-    public String addSkillsForWorker(@PathVariable UUID workerId,
-                                      @RequestParam UUID skillId) {
-       workerService.addSkill(workerId, skillId);
-        return "redirect:/view/skill/" + workerId ;
-    }
 
 
     //----------------------------------------------------------------------------

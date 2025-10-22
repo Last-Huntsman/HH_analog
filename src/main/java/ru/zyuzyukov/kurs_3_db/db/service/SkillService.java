@@ -45,5 +45,12 @@ public class SkillService extends BaseService<Skill> {
         skillRepository.save(existing);
         return existing;
     }
+    public Page<Skill> findAllExcludingIds(List<UUID> excludedIds, Pageable pageable) {
+        if (excludedIds == null || excludedIds.isEmpty()) {
+
+            return skillRepository.findAll(pageable);
+        }
+        return skillRepository.findAllExcludingIds(excludedIds, pageable);
+    }
 
 }
