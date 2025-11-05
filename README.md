@@ -172,8 +172,5 @@ java -jar target/Kurs_3_DB-0.0.1-SNAPSHOT.jar
 - `DB_PASSWORD` — пример: `postgres`
 
 
-## Лицензия
-
-Проект образовательный; при необходимости добавьте текст лицензии в `LICENSE`.
 
 
